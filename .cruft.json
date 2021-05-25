@@ -1,0 +1,19 @@
+{
+  "template": "https://github.com/DHARPA-Project/kiara_modules.project_template.git",
+  "commit": "4f947c21c4cee0d095a8f394011d51de2b0c6a9b",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "full_name": "Markus Binsteiner",
+      "email": "markus.binsteiner@uni.lu",
+      "project_name": "language_processing",
+      "project_slug": "language_processing",
+      "project_short_description": "Kiara modules for language processing.",
+      "_extensions": [
+        "cookiecutter.extensions.JsonifyExtension"
+      ],
+      "_template": "https://github.com/DHARPA-Project/kiara_modules.project_template.git"
+    }
+  },
+  "directory": null
+}
