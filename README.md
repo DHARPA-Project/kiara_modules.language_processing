@@ -33,7 +33,7 @@ check the notes on how to setup a *Kiara* development environment under (TODO).
 
 ```console
 git clone https://github.com/DHARPA-Project/kiara_modules.language_processing.git
-cd kiara
+cd kiara_modules.language_processing
 python3 -m venv .venv
 source .venv/bin/activate
 make init
