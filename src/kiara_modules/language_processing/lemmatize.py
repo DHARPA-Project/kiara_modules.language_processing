@@ -11,6 +11,8 @@ from spacy.util import DummyTokenizer
 class LemmatizeTokensModule(KiaraModule):
     """Lemmatize a single token list."""
 
+    _module_type_name = "tokens"
+
     def create_input_schema(
         self,
     ) -> typing.Mapping[
@@ -53,6 +55,8 @@ class LemmatizeTokensArrayModule(KiaraModule):
     Compared to using the ``lemmatize_tokens`` module in combination with ``map``, this is much faster, since it uses
     a spacy [pipe](https://spacy.io/api/language#pipe) under the hood.
     """
+
+    _module_type_name = "tokens_array"
 
     def create_input_schema(
         self,

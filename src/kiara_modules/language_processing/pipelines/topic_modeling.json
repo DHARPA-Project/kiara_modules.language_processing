@@ -1,13 +1,13 @@
 {
-  "module_type_name": "topic_modelling_end_to_end",
+  "module_type_name": "topic_modeling",
   "doc": "Topic modelling dev pipeline.",
   "steps": [
     {
-      "module_type": "import_local_folder",
+      "module_type": "onboarding.import_local_folder",
       "step_id": "read_files_in_folder"
     },
     {
-      "module_type": "create_table_from_text_files",
+      "module_type": "tabular.create_table_from_text_files",
       "module_config": {
         "columns": ["id", "rel_path", "file_name", "content"]
       },
@@ -17,9 +17,9 @@
       }
     },
     {
-      "module_type": "map",
+      "module_type": "arrays.map",
       "module_config": {
-        "module_type": "extract_date"
+        "module_type": "dates.extract_date"
       },
       "step_id": "extract_date",
       "input_links": {
@@ -27,9 +27,9 @@
       }
     },
     {
-      "module_type": "map",
+      "module_type": "arrays.map",
       "module_config": {
-        "module_type": "match_regex",
+        "module_type": "strings.match_regex",
         "module_config": {
           "regex": "(\\w+\\d+)_\\d{4}-\\d{2}-\\d{2}_",
           "only_first_match": true
@@ -41,9 +41,9 @@
       }
     },
     {
-      "module_type": "map",
+      "module_type": "arrays.map",
       "module_config": {
-        "module_type": "replace_string",
+        "module_type": "strings.replace_string",
         "module_config": {
           "replacement_map": {
             "sn85066408": "L\\'Italia",
@@ -57,7 +57,7 @@
       }
     },
     {
-      "module_type": "merge_table",
+      "module_type": "tabular.merge_table",
       "step_id": "merged_table",
       "input_links": {
         "sources": [
@@ -69,9 +69,9 @@
       }
     },
     {
-      "module_type": "map",
+      "module_type": "arrays.map",
       "module_config": {
-        "module_type": "date_range_check",
+        "module_type": "dates.date_range_check",
         "input_name": "date"
       },
       "step_id": "create_date_range_filter",
@@ -80,7 +80,7 @@
       }
     },
     {
-      "module_type": "filter_table",
+      "module_type": "tabular.filter_table",
       "step_id": "filtered_table",
       "input_links": {
         "table": "merged_table.table",
@@ -88,9 +88,9 @@
       }
     },
     {
-      "module_type": "map",
+      "module_type": "arrays.map",
       "module_config": {
-        "module_type": "tokenize_text",
+        "module_type": "language.tokens.tokenize_text",
         "input_name": "text"
       },
       "step_id": "tokenize_text_corpus",
@@ -99,21 +99,21 @@
       }
     },
     {
-      "module_type": "remove_stopwords",
+      "module_type": "language.tokens.remove_stopwords",
       "step_id": "remove_stopwords",
       "input_links": {
         "token_lists": "tokenize_text_corpus.array"
       }
     },
     {
-      "module_type": "lemmatize",
+      "module_type": "language.lemmatize.tokens_array",
       "step_id": "lemmatize",
       "input_links": {
         "tokens_array": "remove_stopwords.token_list"
       }
     },
     {
-      "module_type": "lda",
+      "module_type": "language.lda.LDA",
       "step_id": "lda",
       "input_links": {
         "tokens_array": "lemmatize.tokens_array"

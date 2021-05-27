@@ -36,6 +36,7 @@ class TokenizeTextConfig(KiaraModuleConfig):
 class TokenizeTextModule(KiaraModule):
 
     _config_cls = TokenizeTextConfig
+    _module_type_name = "tokenize_text"
 
     def create_input_schema(
         self,

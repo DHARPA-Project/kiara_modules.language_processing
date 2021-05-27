@@ -12,6 +12,9 @@ from pyarrow import Table
 
 
 class LDAModule(KiaraModule):
+
+    _module_type_name = "LDA"
+
     def create_input_schema(
         self,
     ) -> typing.Mapping[
