@@ -11,7 +11,7 @@
       "module_config": {
         "columns": ["id", "rel_path", "file_name", "content"]
       },
-      "step_id": "create_table",
+      "step_id": "create_table_from_csvs",
       "input_links": {
         "files": "read_files_in_folder.file_bundle"
       }
@@ -21,9 +21,9 @@
       "module_config": {
         "module_type": "dates.extract_date"
       },
-      "step_id": "extract_date",
+      "step_id": "extract_date_from_file_name",
       "input_links": {
-        "array": "create_table.table.file_name"
+        "array": "create_table_from_csvs.table.file_name"
       }
     },
     {
@@ -35,9 +35,9 @@
           "only_first_match": true
         }
       },
-      "step_id": "extract_ref",
+      "step_id": "extract_ref_from_file_name",
       "input_links": {
-        "array": "create_table.table.file_name"
+        "array": "create_table_from_csvs.table.file_name"
       }
     },
     {
@@ -51,9 +51,9 @@
           }
         }
       },
-      "step_id": "get_publication_name",
+      "step_id": "lookup_publication_name",
       "input_links": {
-        "array": "extract_ref.array"
+        "array": "extract_ref_from_file_name.array"
       }
     },
     {
@@ -61,10 +61,10 @@
       "step_id": "merged_table",
       "input_links": {
         "sources": [
-          "create_table.table",
-          "extract_date.array",
-          "extract_ref.array",
-          "get_publication_name.array"
+          "create_table_from_csvs.table",
+          "extract_date_from_file_name.array",
+          "extract_ref_from_file_name.array",
+          "lookup_publication_name.array"
         ]
       }
     },
@@ -76,7 +76,7 @@
       },
       "step_id": "create_date_range_filter",
       "input_links": {
-        "array": "extract_date"
+        "array": "extract_date_from_file_name"
       }
     },
     {
@@ -107,16 +107,16 @@
     },
     {
       "module_type": "language.lemmatize.tokens_array",
-      "step_id": "lemmatize",
+      "step_id": "lemmatize_corpus",
       "input_links": {
         "tokens_array": "remove_stopwords.token_list"
       }
     },
     {
       "module_type": "language.lda.LDA",
-      "step_id": "lda",
+      "step_id": "generate_lda",
       "input_links": {
-        "tokens_array": "lemmatize.tokens_array"
+        "tokens_array": "lemmatize_corpus.tokens_array"
       }
     }
   ],
