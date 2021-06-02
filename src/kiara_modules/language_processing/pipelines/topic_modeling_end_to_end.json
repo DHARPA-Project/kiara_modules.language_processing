@@ -1,5 +1,5 @@
 {
-  "module_type_name": "topic_modeling",
+  "module_type_name": "topic_modeling_end_to_end",
   "doc": "Topic modelling dev pipeline.",
   "steps": [
     {
@@ -80,7 +80,7 @@
       }
     },
     {
-      "module_type": "tabular.filter_table",
+      "module_type": "tabular.filters.create_filtered_table",
       "step_id": "filtered_table",
       "input_links": {
         "table": "merged_table.table",
