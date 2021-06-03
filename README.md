@@ -45,7 +45,7 @@ After this is done, you should be able to run the included example module via:
 # for now we need to install required spacy modules manually:
 python -m spacy download it_core_news_sm
 # then, using the data from the TopicModeling repository:
-kiara run -d topic_modelling_end_to_end path=path/to/data_tm_workflow earliest="1919-01-01" latest="2000-01-01" languages=italian languages=german compute_coherence=true
+kiara run -e topic_modelling_end_to_end path=path/to/data_tm_workflow earliest="1919-01-01" latest="2000-01-01" languages=italian languages=german compute_coherence=true
 ...
 ...
 ```

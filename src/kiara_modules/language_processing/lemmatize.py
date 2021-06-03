@@ -34,7 +34,6 @@ class LemmatizeTokensModule(KiaraModule):
     def process(self, inputs: ValueSet, outputs: ValueSet) -> None:
 
         tokens = inputs.get_value_data("tokens_array")
-        print(f"LEMMA: {tokens[0: 20]}")
 
         # TODO: install this on demand?
         import it_core_news_sm

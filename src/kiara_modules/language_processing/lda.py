@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 import re
 import typing
 
@@ -101,7 +102,7 @@ class LDAModule(KiaraModule):
         return Table.from_pandas(df_coherence_table, preserve_index=False)
 
     def process(self, inputs: ValueSet, outputs: ValueSet) -> None:
-
+        logging.getLogger("gensim").setLevel(logging.ERROR)
         tokens_array = inputs.get_value_data("tokens_array")
         tokens = tokens_array.to_pylist()
         num_topics = inputs.get_value_data("num_topics")
