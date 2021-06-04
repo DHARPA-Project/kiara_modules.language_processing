@@ -13,6 +13,7 @@ from pyarrow import Table
 
 
 class LDAModule(KiaraModule):
+    """Perform Latent Dirichlet Allocation on a tokenized corpus."""
 
     _module_type_name = "LDA"
 

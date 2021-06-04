@@ -34,6 +34,7 @@ class TokenizeTextConfig(KiaraModuleConfig):
 
 
 class TokenizeTextModule(KiaraModule):
+    """Tokenize a string."""
 
     _config_cls = TokenizeTextConfig
     _module_type_name = "tokenize_text"
@@ -89,6 +90,10 @@ class TokenizeTextModule(KiaraModule):
 
 
 class RemoveStopwordsModule(KiaraModule):
+    """Remove stopwords from an array of token-lists."""
+
+    _module_type_name = "remove_stopwords"
+
     def create_input_schema(
         self,
     ) -> typing.Mapping[
