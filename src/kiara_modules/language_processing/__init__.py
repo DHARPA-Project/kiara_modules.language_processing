@@ -6,23 +6,32 @@
 import logging
 import os
 
-from kiara import (
-    KiaraEntryPointItem,
-    find_kiara_modules_under,
-    find_pipeline_base_path_for_module,
-)
+from kiara import KiaraEntryPointItem, find_kiara_modules_under
 
 __author__ = """Markus Binsteiner"""
 __email__ = "markus.binsteiner@uni.lu"
 
 log = logging.getLogger("kiara_modules")
 
+KIARA_METADATA = {
+    "authors": [{"name": __author__, "email": __email__}],
+    "description": "Kiara modules for: language_processing",
+    "references": {
+        "source_repo": {
+            "desc": "The module package git repository.",
+            "url": "https://github.com/DHARPA-Project/kiara_modules.language_processing",
+        },
+        "documentation": {
+            "desc": "The url for the module package documentation.",
+            "url": "https://dharpa.org/kiara_modules.language_processing/",
+        },
+    },
+    "tags": ["language_processing"],
+    "labels": {"package": "kiara_modules.language_processing"},
+}
+
 modules: KiaraEntryPointItem = (
     find_kiara_modules_under,
-    ["kiara_modules.language_processing"],
-)
-pipelines: KiaraEntryPointItem = (
-    find_pipeline_base_path_for_module,
     ["kiara_modules.language_processing"],
 )
 
