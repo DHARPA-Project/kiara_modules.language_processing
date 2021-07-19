@@ -1,9 +1,9 @@
 {
   "module_type_name": "topic_modeling_create_table",
-  "doc": "Create table from folder of csv files.",
+  "documentation": "Create table from folder of csv files.",
   "steps": [
     {
-      "module_type": "onboarding.folder.import",
+      "module_type": "onboard.folder",
       "step_id": "read_files_in_folder"
     },
     {

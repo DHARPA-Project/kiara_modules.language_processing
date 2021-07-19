@@ -1,9 +1,9 @@
 {
   "module_type_name": "topic_modeling_end_to_end",
-  "doc": "Topic modelling dev pipeline.",
+  "documentation": "Topic modelling dev pipeline.",
   "steps": [
     {
-      "module_type": "onboarding.folder.import",
+      "module_type": "onboard.folder",
       "step_id": "read_files_in_folder"
     },
     {
