@@ -3,7 +3,7 @@
   "documentation": "Create table from folder of csv files.",
   "steps": [
     {
-      "module_type": "onboard.folder",
+      "module_type": "import.local_folder",
       "step_id": "read_files_in_folder"
     },
     {
