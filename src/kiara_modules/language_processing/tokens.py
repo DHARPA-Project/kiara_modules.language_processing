@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import typing
 
-import nltk
-import pyarrow as pa
 from kiara import KiaraModule
 from kiara.data.values import ValueSchema, ValueSet
 from kiara.exceptions import KiaraProcessingException
@@ -65,8 +63,9 @@ class TokenizeTextModule(KiaraModule):
 
     def process(self, inputs: ValueSet, outputs: ValueSet) -> None:
 
-        # TODO: module-independent caching?
+        import nltk
 
+        # TODO: module-independent caching?
         # language = inputs.get_value_data("language")
         #
         text = inputs.get_value_data("text")
@@ -134,6 +133,8 @@ class RemoveStopwordsModule(KiaraModule):
         return outputs
 
     def process(self, inputs: ValueSet, outputs: ValueSet) -> None:
+
+        import pyarrow as pa
 
         custom_stopwords = inputs.get_value_data("additional_stopwords")
         languages = inputs.get_value_data("languages")

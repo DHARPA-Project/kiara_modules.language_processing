@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 import typing
 
-import pyarrow as pa
 from kiara import KiaraModule
 from kiara.data.values import ValueSchema, ValueSet
-from spacy.tokens import Doc
-from spacy.util import DummyTokenizer
 
 
 class LemmatizeTokensModule(KiaraModule):
@@ -81,6 +78,10 @@ class LemmatizeTokensArrayModule(KiaraModule):
         return outputs
 
     def process(self, inputs: ValueSet, outputs: ValueSet) -> None:
+
+        import pyarrow as pa
+        from spacy.tokens import Doc
+        from spacy.util import DummyTokenizer
 
         tokens: pa.Array = inputs.get_value_data("tokens_array")
 

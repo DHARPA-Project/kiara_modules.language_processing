@@ -3,13 +3,8 @@ import logging
 import re
 import typing
 
-import gensim
-import pandas as pd
-from gensim import corpora
-from gensim.models import CoherenceModel
 from kiara import KiaraModule
 from kiara.data.values import ValueSchema, ValueSet
-from pyarrow import Table
 
 
 class LDAModule(KiaraModule):
@@ -52,6 +47,11 @@ class LDAModule(KiaraModule):
         return outputs
 
     def compute_with_coherence(self, corpus, id2word, corpus_model):
+
+        import gensim
+        import pandas as pd
+        from gensim.models import CoherenceModel
+        from pyarrow import Table
 
         topics_nr = []
         coherence_values_gensim = []
@@ -103,6 +103,12 @@ class LDAModule(KiaraModule):
         return Table.from_pandas(df_coherence_table, preserve_index=False)
 
     def process(self, inputs: ValueSet, outputs: ValueSet) -> None:
+
+        import gensim
+        import pandas as pd
+        from gensim import corpora
+        from pyarrow import Table
+
         logging.getLogger("gensim").setLevel(logging.ERROR)
         tokens_array = inputs.get_value_data("tokens_array")
         tokens = tokens_array.to_pylist()
