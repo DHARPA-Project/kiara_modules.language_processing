@@ -5,7 +5,7 @@
     "context": {
         "cookiecutter": {
             "full_name": "Markus Binsteiner",
-            "email": "markus.binsteiner@uni.lu",
+            "email": "markus@frkl.io",
             "project_name": "language_processing",
             "project_slug": "language_processing",
             "project_short_description": "Kiara modules for language processing.",
