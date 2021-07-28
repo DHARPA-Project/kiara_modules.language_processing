@@ -4,7 +4,7 @@ import typing
 from kiara import KiaraModule
 from kiara.data.values import ValueSchema, ValueSet
 from kiara.exceptions import KiaraProcessingException
-from kiara.module_config import KiaraModuleConfig
+from kiara.module_config import ModuleTypeConfig
 from pydantic import Field
 
 
@@ -20,7 +20,7 @@ def get_stopwords():
     return stopwords
 
 
-class TokenizeTextConfig(KiaraModuleConfig):
+class TokenizeTextConfig(ModuleTypeConfig):
 
     filter_non_alpha: bool = Field(
         description="Whether to filter out non alpha tokens.", default=True
