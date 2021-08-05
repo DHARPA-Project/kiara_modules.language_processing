@@ -90,22 +90,36 @@ class LemmatizeTokensArrayModule(KiaraModule):
 
         it_nlp = it_core_news_sm.load(disable=["tagger", "parser", "ner"])
 
-        class CustomTokenizer(DummyTokenizer):
-            def __init__(self, vocab):
-                self.vocab = vocab
+        use_pipe = True
 
-            def __call__(self, words):
-                return Doc(self.vocab, words=words)
+        if not use_pipe:
 
-        it_nlp.tokenizer = CustomTokenizer(it_nlp.vocab)
-        result = []
+            result = []
+            for t_list in tokens:
+                t = []
+                for w in t_list:
+                    w_lemma = [token.lemma_ for token in it_nlp(w.as_py())]
+                    t.append(w_lemma[0])
+                result.append(t)
 
-        for doc in it_nlp.pipe(
-            tokens.to_pylist(),
-            batch_size=32,
-            n_process=3,
-            disable=["parser", "ner", "tagger"],
-        ):
-            result.append([tok.lemma_ for tok in doc])
+        else:
+
+            class CustomTokenizer(DummyTokenizer):
+                def __init__(self, vocab):
+                    self.vocab = vocab
+
+                def __call__(self, words):
+                    return Doc(self.vocab, words=words)
+
+            it_nlp.tokenizer = CustomTokenizer(it_nlp.vocab)
+            result = []
+
+            for doc in it_nlp.pipe(
+                tokens.to_pylist(),
+                batch_size=32,
+                n_process=3,
+                disable=["parser", "ner", "tagger"],
+            ):
+                result.append([tok.lemma_ for tok in doc])
 
         outputs.set_value("tokens_array", pa.array(result))
