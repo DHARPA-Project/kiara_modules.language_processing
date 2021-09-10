@@ -1,19 +1,19 @@
 {
-    "template": "https://github.com/DHARPA-Project/kiara_modules.project_template.git",
-    "commit": "fef2de5529ed39040c6555ec8cc6adcd8bb0c9a6",
-    "checkout": null,
-    "context": {
-        "cookiecutter": {
-            "full_name": "Markus Binsteiner",
-            "email": "markus@frkl.io",
-            "project_name": "language_processing",
-            "project_slug": "language_processing",
-            "project_short_description": "Kiara modules for language processing.",
-            "_extensions": [
-                "cookiecutter.extensions.JsonifyExtension"
-            ],
-            "_template": "https://github.com/DHARPA-Project/kiara_modules.project_template.git"
-        }
-    },
-    "directory": null
+  "template": "https://github.com/DHARPA-Project/kiara_modules.project_template.git",
+  "commit": "e3120be63960acd1aec49fc46f5d02bc9650e329",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "full_name": "Markus Binsteiner",
+      "email": "markus@frkl.io",
+      "project_name": "language_processing",
+      "project_slug": "language_processing",
+      "project_short_description": "Kiara modules for language processing.",
+      "_extensions": [
+        "cookiecutter.extensions.JsonifyExtension"
+      ],
+      "_template": "https://github.com/DHARPA-Project/kiara_modules.project_template.git"
+    }
+  },
+  "directory": null
 }
