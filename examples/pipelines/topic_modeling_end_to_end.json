@@ -3,8 +3,36 @@
   "documentation": "Topic modelling dev pipeline.",
   "steps": [
     {
-      "module_type": "table.import_from.folder_path.string",
-      "step_id": "create_table_from_files"
+      "module_type": "file_bundle.import",
+      "module_config": {
+        "source_name": "local",
+        "source_type": "folder_path",
+        "allow_save_input": false,
+        "save_default": false
+      },
+      "step_id": "import_file"
+    },
+    {
+      "module_type": "file_bundle.convert_to.table",
+      "module_config": {
+        "ignore_errors": true
+      },
+      "step_id": "create_table_from_files",
+      "input_links": {
+        "value_item": "import_file.value_item"
+      }
+    },
+    {
+      "module_type": "table.cut_column",
+      "module_config": {
+        "constants": {
+          "column_name": "file_name"
+        }
+      },
+      "step_id": "cut_filename_column",
+      "input_links": {
+        "table": "create_table_from_files.value_item"
+      }
     },
     {
       "module_type": "array.map",
@@ -13,7 +41,7 @@
       },
       "step_id": "extract_date_from_file_name",
       "input_links": {
-        "array": "create_table_from_files.value_item.file_name"
+        "array": "cut_filename_column.array"
       }
     },
     {
@@ -27,7 +55,7 @@
       },
       "step_id": "extract_ref_from_file_name",
       "input_links": {
-        "array": "create_table_from_files.value_item.file_name"
+        "array": "cut_filename_column.array"
       }
     },
     {
@@ -48,14 +76,28 @@
     },
     {
       "module_type": "table.merge",
+      "module_config": {
+        "input_schema": {
+          "table": {
+            "type": "table"
+          },
+          "date_column": {
+            "type": "array"
+          },
+          "ref_column": {
+            "type": "array"
+          },
+          "pub_name_column": {
+            "type": "array"
+          }
+        }
+      },
       "step_id": "merged_table",
       "input_links": {
-        "sources": [
-          "create_table_from_files.value_item",
-          "extract_date_from_file_name.array",
-          "extract_ref_from_file_name.array",
-          "lookup_publication_name.array"
-        ]
+        "table": "create_table_from_files.value_item",
+        "date_column": "extract_date_from_file_name.array",
+        "ref_column": "extract_ref_from_file_name.array",
+        "pub_name_column": "lookup_publication_name.array"
       }
     },
     {
@@ -78,6 +120,18 @@
       }
     },
     {
+      "module_type": "table.cut_column",
+      "module_config": {
+        "constants": {
+          "column_name": "content"
+        }
+      },
+      "step_id": "cut_content_column",
+      "input_links": {
+        "table": "filtered_table"
+      }
+    },
+    {
       "module_type": "array.map",
       "module_config": {
         "module_type": "language.tokens.tokenize_text",
@@ -85,7 +139,7 @@
       },
       "step_id": "tokenize_text_corpus",
       "input_links": {
-        "array": "filtered_table.table.content"
+        "array": "cut_content_column.array"
       }
     },
     {
@@ -111,8 +165,7 @@
     }
   ],
   "input_aliases": {
-    "create_table_from_files__source": "path",
-    "create_table_from_files__aliases": "table_aliases",
+    "import_file__source": "path",
     "create_date_range_filter__earliest": "earliest",
     "create_date_range_filter__latest": "latest",
     "remove_stopwords__languages": "languages",
