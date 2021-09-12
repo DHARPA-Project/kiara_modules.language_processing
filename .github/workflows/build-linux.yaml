@@ -4,17 +4,16 @@ on: [push]
 
 jobs:
 
-  name: lint commit message
-  on: [push, pull_request]
 
-  jobs:
-    commitlint:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-          with:
-            fetch-depth: 0
-        - uses: wagoid/commitlint-github-action@v4
+  commitlint:
+    name: lint commit message
+    runs-on: ubuntu-latest
+    on: [push, pull_request]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: wagoid/commitlint-github-action@v4
 
   test-linux:
     name: pytest on linux
