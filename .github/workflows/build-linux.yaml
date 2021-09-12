@@ -4,11 +4,9 @@ on: [push]
 
 jobs:
 
-
   commitlint:
     name: lint commit message
     runs-on: ubuntu-latest
-    on: [push, pull_request]
     steps:
       - uses: actions/checkout@v2
         with:
