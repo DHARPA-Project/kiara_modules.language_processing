@@ -1,13 +1,13 @@
-[![PyPI status](https://img.shields.io/pypi/status/kiara_modules.language_processing.svg)](https://pypi.python.org/pypi/kiara/)
-[![PyPI version](https://img.shields.io/pypi/v/kiara_modules.language_processing.svg)](https://pypi.python.org/pypi/kiara/)
-[![PyPI pyversions](https://img.shields.io/pypi/pyversions/kiara_modules.language_processing.svg)](https://pypi.python.org/pypi/kiara/)
+[![PyPI status](https://img.shields.io/pypi/status/kiara_modules.language_processing.svg)](https://pypi.python.org/pypi/kiara_modules.language_processing/)
+[![PyPI version](https://img.shields.io/pypi/v/kiara_modules.language_processing.svg)](https://pypi.python.org/pypi/kiara_modules.language_processing/)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/kiara_modules.language_processing.svg)](https://pypi.python.org/pypi/kiara_modules.language_processing/)
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FDHARPA-Project%2Fkiara%2Fbadge%3Fref%3Ddevelop&style=flat)](https://actions-badge.atrox.dev/DHARPA-Project/kiara_modules.language_processing/goto?ref=develop)
 [![Coverage Status](https://coveralls.io/repos/github/DHARPA-Project/kiara_modules.language_processing/badge.svg?branch=develop)](https://coveralls.io/github/DHARPA-Project/kiara_modules.language_processing?branch=develop)
 [![Code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 # *kiara* modules (language_processing)
 
-A set of commonly used/useful default modules (and pipelines) for [*Kiara*](https://github.com/DHARPA-project/kiara).
+A set of modules (and pipelines) for [*Kiara*](https://github.com/DHARPA-project/kiara).
 
  - Documentation: [https://dharpa.org/kiara_modules.language_processing](https://dharpa.org/kiara_modules.language_processing)
  - Code: [https://github.com/DHARPA-Project/kiara_modules.language_processing](https://github.com/DHARPA-Project/kiara_modules.language_processing)
