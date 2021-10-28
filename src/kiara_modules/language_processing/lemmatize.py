@@ -46,6 +46,22 @@ class LemmatizeTokensModule(KiaraModule):
         outputs.set_value("tokens_array", lemmatized_doc)
 
 
+def install_and_import_spacy_package(package):
+    import importlib
+
+    try:
+        pkg = importlib.import_module(package)
+    except ImportError:
+        import spacy
+
+        print("INSTALLING")
+        spacy.cli.download(package)
+        pkg = importlib.import_module(package)
+        globals()[package] = pkg
+
+    return pkg
+
+
 class LemmatizeTokensArrayModule(KiaraModule):
     """Lemmatize an array of token lists.
 
@@ -86,12 +102,13 @@ class LemmatizeTokensArrayModule(KiaraModule):
 
         tokens: pa.Array = inputs.get_value_data("tokens_array")
 
-        # TODO: install this on demand?
+        # it_core_news_sm = install_and_import_spacy_package("it-core-news-sm")
         import it_core_news_sm
 
         it_nlp = it_core_news_sm.load(disable=["tagger", "parser", "ner"])
+        # it_nlp = it_core_news_sm.load(disable=["tagger"])
 
-        use_pipe = True
+        use_pipe = False
 
         if not use_pipe:
 

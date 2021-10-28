@@ -14,8 +14,10 @@ def get_stopwords():
     # TODO: make that smarter
     pass
 
-    # nltk.download('punkt')
-    # nltk.download('stopwords')
+    import nltk
+
+    nltk.download("punkt")
+    nltk.download("stopwords")
     from nltk.corpus import stopwords
 
     return stopwords

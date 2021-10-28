@@ -105,9 +105,9 @@ class LDAModule(KiaraModule):
 
     def process(self, inputs: ValueSet, outputs: ValueSet) -> None:
 
-        import gensim
         import pandas as pd
         from gensim import corpora
+        from gensim.models import LdaModel
         from pyarrow import Table
 
         logging.getLogger("gensim").setLevel(logging.ERROR)
@@ -119,7 +119,10 @@ class LDAModule(KiaraModule):
         id2word = corpora.Dictionary(tokens)
         corpus = [id2word.doc2bow(text) for text in tokens]
 
-        model = gensim.models.ldamulticore.LdaMulticore(
+        # model = gensim.models.ldamulticore.LdaMulticore(
+        #     corpus, id2word=id2word, num_topics=num_topics, eval_every=None
+        # )
+        model = LdaModel(
             corpus, id2word=id2word, num_topics=num_topics, eval_every=None
         )
         topic_print_model = model.print_topics(num_words=30)
