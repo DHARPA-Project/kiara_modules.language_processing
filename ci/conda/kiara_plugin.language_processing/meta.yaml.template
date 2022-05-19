@@ -24,9 +24,9 @@ requirements:
   run:
     - python
     - gensim>=4.2.0
-    - kiara>=0.4.4
-    - kiara_plugin.core_types>=0.4.2
-    - kiara_plugin.tabular>=0.4.4
+    - kiara>=0.4.6
+    - kiara_plugin.core_types>=0.4.4
+    - kiara_plugin.tabular>=0.4.6
     - nltk>=3.7
     - vaex-core>=4.9.0
 about:
