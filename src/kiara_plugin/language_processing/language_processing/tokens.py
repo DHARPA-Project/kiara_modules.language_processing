@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Iterable, Optional
 
 from kiara import KiaraModule
 from kiara.exceptions import KiaraProcessingException
@@ -164,6 +164,71 @@ class TokenizeTextArrayeModule(KiaraModule):
         # result_array = pa.Array.from_pandas(tokenized)
         #
         # outputs.set_values(tokens_array=result_array)
+
+
+class AssembleStopwordsModule(KiaraModule):
+    """Create a list of stopwords from one or multiple sources.
+
+    This will download nltk stopwords if necessary, and merge all input lists into a single, sorted list without duplicates.
+    """
+
+    _module_type_name = "create.stopwords_list"
+
+    def create_inputs_schema(
+        self,
+    ) -> ValueSetSchema:
+
+        return {
+            "languages": {
+                "type": "list",
+                "doc": "A list of languages, will be used to retrieve language-specific stopword from nltk.",
+                "optional": True,
+            },
+            "stopword_lists": {
+                "type": "list",
+                "doc": "A list of lists of stopwords.",
+                "optional": True,
+            },
+        }
+
+    def create_outputs_schema(
+        self,
+    ) -> ValueSetSchema:
+
+        return {
+            "stopwords_list": {
+                "type": "list",
+                "doc": "A sorted list of unique stopwords.",
+            }
+        }
+
+    def process(self, inputs: ValueMap, outputs: ValueMap):
+
+        stopwords = set()
+        _languages = inputs.get_value_obj("languages")
+
+        if _languages.is_set:
+            all_stopwords = get_stopwords()
+            languages: ListModel = _languages.data
+
+            for language in languages.list_data:
+
+                if language not in all_stopwords.fileids():
+                    raise KiaraProcessingException(
+                        f"Invalid language: {language}. Available: {', '.join(all_stopwords.fileids())}."
+                    )
+                stopwords.update(get_stopwords().words(language))
+
+        _stopword_lists = inputs.get_value_obj("stopword_lists")
+        if _stopword_lists.is_set:
+            stopword_lists: ListModel = _stopword_lists.data
+            for stopword_list in stopword_lists.list_data:
+                if isinstance(stopword_list, str):
+                    stopwords.add(stopword_list)
+                else:
+                    stopwords.update(stopword_list)
+
+        outputs.set_value("stopwords_list", sorted(stopwords))
 
 
 class RemoveStopwordsModule(KiaraModule):
@@ -332,7 +397,11 @@ class PreprocessModule(KiaraModule):
         remove_all_numeric: bool = inputs.get_value_data("remove_all_numeric")
         remove_short_tokens: int = inputs.get_value_data("remove_short_tokens")
 
-        remove_stopwords: list = inputs.get_value_data("remove_stopwords")
+        _remove_stopwords = inputs.get_value_obj("remove_stopwords")
+        if _remove_stopwords.is_set:
+            stopword_list: Optional[Iterable[str]] = _remove_stopwords.data.list_data
+        else:
+            stopword_list = None
 
         # it's better to have one method every token goes through, then do every test seperately for the token list
         # because that way each token only needs to be touched once (which is more effective)
@@ -364,13 +433,13 @@ class PreprocessModule(KiaraModule):
                 if _token is None:
                     return None
 
-            if remove_stopwords and _token in remove_stopwords:
+            if stopword_list and _token and _token.lower() in stopword_list:
                 return None
 
             return token
 
         df = vaex.from_arrays(column=tokens_array.arrow_array)
-        # tokenized = df.apply(check_token, arguments=[df.column])
+
         processed = df.apply(
             lambda token_list: [
                 x for x in (check_token(token) for token in token_list) if x is not None

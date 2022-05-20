@@ -15,14 +15,13 @@ steps:
     step_id: tokenize_content
     input_links:
       texts_array: extract_texts_column.array
-  - module_type: remove_stopwords.from.tokens_array
-    step_id: remove_stopwords
-    input_links:
-      tokens_array: tokenize_content.tokens_array
+  - module_type: create.stopwords_list
+    step_id: create_stopwords_list
   - module_type: preprocess.tokens_array
     step_id: preprocess_corpus
     input_links:
-      tokens_array: remove_stopwords.tokens_array
+      tokens_array: tokenize_content.tokens_array
+      remove_stopwords: create_stopwords_list.stopwords_list
   - module_type: generate.LDA.for.tokens_array
     step_id: generate_lda
     input_links:
@@ -36,8 +35,8 @@ input_aliases:
   generate_lda.num_topics_max: num_topics_max
   generate_lda.compute_coherence: compute_coherence
   generate_lda.words_per_topic: words_per_topic
-  remove_stopwords.languages: languages
-  remove_stopwords.additional_stopwords: additional_stopwords
+  create_stopwords_list.languages: languages
+  create_stopwords_list.stopword_lists: stopword_lists
   preprocess_corpus.to_lowercase: to_lowercase
   preprocess_corpus.remove_alphanumeric: remove_alphanumeric
   preprocess_corpus.remove_non_alpha: remove_non_alpha
@@ -50,11 +49,10 @@ output_aliases:
   create_text_corpus.table: text_corpus_table
   extract_texts_column.array: content_array
   tokenize_content.tokens_array: tokenized_corpus
-  remove_stopwords.tokens_array: tokenized_corpus_without_stopword
   preprocess_corpus.tokens_array: preprocessed_corpus
   generate_lda.topic_models: topic_models
 
-inputs:
+defaults:
   content_column_name: "content"
-  text_corpus_folder_path: examples/data/text_corpus
+  text_corpus_folder_path: "${pipeline_dir}/../data/text_corpus"
   languages: ["italian"]
