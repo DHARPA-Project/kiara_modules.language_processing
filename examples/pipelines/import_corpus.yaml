@@ -51,6 +51,8 @@ output_aliases:
   tokenize_content.tokens_array: tokenized_corpus
   preprocess_corpus.tokens_array: preprocessed_corpus
   generate_lda.topic_models: topic_models
+  generate_lda.coherence_map: coherence_map
+  generate_lda.coherence_table: coherence_table
 
 defaults:
   content_column_name: "content"

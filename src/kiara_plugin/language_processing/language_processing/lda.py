@@ -203,8 +203,10 @@ class LDAModule(KiaraModule):
         else:
             coherence_table = None
 
+        coherence_map = {k: v.item() for k, v in coherence.items()}
+
         outputs.set_values(
             topic_models=model_tables,
             coherence_table=coherence_table,
-            coherence_map=coherence,
+            coherence_map=coherence_map,
         )
