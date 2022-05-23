@@ -538,6 +538,53 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule" class="md-nav__link">
+    AssembleStopwordsModule
+  </a>
+  
+    <nav class="md-nav" aria-label="AssembleStopwordsModule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule-methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule.create_inputs_schema" class="md-nav__link">
+    create_inputs_schema()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule.create_outputs_schema" class="md-nav__link">
+    create_outputs_schema()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule.process" class="md-nav__link">
+    process()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#kiara_plugin.language_processing.language_processing.tokens.PreprocessModule" class="md-nav__link">
     PreprocessModule
   </a>
@@ -935,6 +982,53 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule" class="md-nav__link">
+    AssembleStopwordsModule
+  </a>
+  
+    <nav class="md-nav" aria-label="AssembleStopwordsModule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule-methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule.create_inputs_schema" class="md-nav__link">
+    create_inputs_schema()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule.create_outputs_schema" class="md-nav__link">
+    create_outputs_schema()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule.process" class="md-nav__link">
+    process()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#kiara_plugin.language_processing.language_processing.tokens.PreprocessModule" class="md-nav__link">
     PreprocessModule
   </a>
@@ -1268,6 +1362,238 @@
 
 
 
+<h3 id="kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule" class="doc doc-heading">
+        <code>
+AssembleStopwordsModule            (<a class="autorefs autorefs-external" title="kiara.modules.KiaraModule" href="https://dharpa.org/kiara/latest/reference/kiara/modules/__init__/#kiara.modules.KiaraModule">KiaraModule</a>)
+        </code>
+
+
+
+<a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Create a list of stopwords from one or multiple sources.</p>
+<p>This will download nltk stopwords if necessary, and merge all input lists into a single, sorted list without duplicates.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>language_processing/language_processing/tokens.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">AssembleStopwordsModule</span><span class="p">(</span><span class="n">KiaraModule</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a list of stopwords from one or multiple sources.</span>
+
+<span class="sd">    This will download nltk stopwords if necessary, and merge all input lists into a single, sorted list without duplicates.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_module_type_name</span> <span class="o">=</span> <span class="s2">&quot;create.stopwords_list&quot;</span>
+
+    <span class="k">def</span> <span class="nf">create_inputs_schema</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValueSetSchema</span><span class="p">:</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;languages&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of languages, will be used to retrieve language-specific stopword from nltk.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;stopword_lists&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of lists of stopwords.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">create_outputs_schema</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValueSetSchema</span><span class="p">:</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;stopwords_list&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;A sorted list of unique stopwords.&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">):</span>
+
+        <span class="n">stopwords</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">_languages</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_obj</span><span class="p">(</span><span class="s2">&quot;languages&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">_languages</span><span class="o">.</span><span class="n">is_set</span><span class="p">:</span>
+            <span class="n">all_stopwords</span> <span class="o">=</span> <span class="n">get_stopwords</span><span class="p">()</span>
+            <span class="n">languages</span><span class="p">:</span> <span class="n">ListModel</span> <span class="o">=</span> <span class="n">_languages</span><span class="o">.</span><span class="n">data</span>
+
+            <span class="k">for</span> <span class="n">language</span> <span class="ow">in</span> <span class="n">languages</span><span class="o">.</span><span class="n">list_data</span><span class="p">:</span>
+
+                <span class="k">if</span> <span class="n">language</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_stopwords</span><span class="o">.</span><span class="n">fileids</span><span class="p">():</span>
+                    <span class="k">raise</span> <span class="n">KiaraProcessingException</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Invalid language: </span><span class="si">{</span><span class="n">language</span><span class="si">}</span><span class="s2">. Available: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">all_stopwords</span><span class="o">.</span><span class="n">fileids</span><span class="p">())</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="p">)</span>
+                <span class="n">stopwords</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">get_stopwords</span><span class="p">()</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="n">language</span><span class="p">))</span>
+
+        <span class="n">_stopword_lists</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_obj</span><span class="p">(</span><span class="s2">&quot;stopword_lists&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_stopword_lists</span><span class="o">.</span><span class="n">is_set</span><span class="p">:</span>
+            <span class="n">stopword_lists</span><span class="p">:</span> <span class="n">ListModel</span> <span class="o">=</span> <span class="n">_stopword_lists</span><span class="o">.</span><span class="n">data</span>
+            <span class="k">for</span> <span class="n">stopword_list</span> <span class="ow">in</span> <span class="n">stopword_lists</span><span class="o">.</span><span class="n">list_data</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stopword_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">stopwords</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">stopword_list</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">stopwords</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">stopword_list</span><span class="p">)</span>
+
+        <span class="n">outputs</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="s2">&quot;stopwords_list&quot;</span><span class="p">,</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">stopwords</span><span class="p">))</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<h4 id="kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule-methods">Methods<a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule-methods" class="headerlink" title="Permanent link">&para;</a></h4>
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h5 id="kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule.create_inputs_schema" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">create_inputs_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule.create_inputs_schema" class="headerlink" title="Permanent link">&para;</a></h5>
+
+    <div class="doc doc-contents ">
+
+      <p>Return the schema for this types' inputs.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>language_processing/language_processing/tokens.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_inputs_schema</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValueSetSchema</span><span class="p">:</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;languages&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of languages, will be used to retrieve language-specific stopword from nltk.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;stopword_lists&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of lists of stopwords.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h5 id="kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule.create_outputs_schema" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">create_outputs_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule.create_outputs_schema" class="headerlink" title="Permanent link">&para;</a></h5>
+
+    <div class="doc doc-contents ">
+
+      <p>Return the schema for this types' outputs.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>language_processing/language_processing/tokens.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_outputs_schema</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValueSetSchema</span><span class="p">:</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;stopwords_list&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;A sorted list of unique stopwords.&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h5 id="kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule.process" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span></code>
+
+
+<a href="#kiara_plugin.language_processing.language_processing.tokens.AssembleStopwordsModule.process" class="headerlink" title="Permanent link">&para;</a></h5>
+
+    <div class="doc doc-contents ">
+
+
+        <details class="quote">
+          <summary>Source code in <code>language_processing/language_processing/tokens.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">):</span>
+
+    <span class="n">stopwords</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">_languages</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_obj</span><span class="p">(</span><span class="s2">&quot;languages&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">_languages</span><span class="o">.</span><span class="n">is_set</span><span class="p">:</span>
+        <span class="n">all_stopwords</span> <span class="o">=</span> <span class="n">get_stopwords</span><span class="p">()</span>
+        <span class="n">languages</span><span class="p">:</span> <span class="n">ListModel</span> <span class="o">=</span> <span class="n">_languages</span><span class="o">.</span><span class="n">data</span>
+
+        <span class="k">for</span> <span class="n">language</span> <span class="ow">in</span> <span class="n">languages</span><span class="o">.</span><span class="n">list_data</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">language</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_stopwords</span><span class="o">.</span><span class="n">fileids</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">KiaraProcessingException</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Invalid language: </span><span class="si">{</span><span class="n">language</span><span class="si">}</span><span class="s2">. Available: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">all_stopwords</span><span class="o">.</span><span class="n">fileids</span><span class="p">())</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">stopwords</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">get_stopwords</span><span class="p">()</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="n">language</span><span class="p">))</span>
+
+    <span class="n">_stopword_lists</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_obj</span><span class="p">(</span><span class="s2">&quot;stopword_lists&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">_stopword_lists</span><span class="o">.</span><span class="n">is_set</span><span class="p">:</span>
+        <span class="n">stopword_lists</span><span class="p">:</span> <span class="n">ListModel</span> <span class="o">=</span> <span class="n">_stopword_lists</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">for</span> <span class="n">stopword_list</span> <span class="ow">in</span> <span class="n">stopword_lists</span><span class="o">.</span><span class="n">list_data</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stopword_list</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">stopwords</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">stopword_list</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">stopwords</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">stopword_list</span><span class="p">)</span>
+
+    <span class="n">outputs</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="s2">&quot;stopwords_list&quot;</span><span class="p">,</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">stopwords</span><span class="p">))</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
 <h3 id="kiara_plugin.language_processing.language_processing.tokens.PreprocessModule" class="doc doc-heading">
         <code>
 PreprocessModule            (<a class="autorefs autorefs-external" title="kiara.modules.KiaraModule" href="https://dharpa.org/kiara/latest/reference/kiara/modules/__init__/#kiara.modules.KiaraModule">KiaraModule</a>)
@@ -1366,7 +1692,11 @@ PreprocessModule            (<a class="autorefs autorefs-external" title="kiara.
         <span class="n">remove_all_numeric</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;remove_all_numeric&quot;</span><span class="p">)</span>
         <span class="n">remove_short_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;remove_short_tokens&quot;</span><span class="p">)</span>
 
-        <span class="n">remove_stopwords</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;remove_stopwords&quot;</span><span class="p">)</span>
+        <span class="n">_remove_stopwords</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_obj</span><span class="p">(</span><span class="s2">&quot;remove_stopwords&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_remove_stopwords</span><span class="o">.</span><span class="n">is_set</span><span class="p">:</span>
+            <span class="n">stopword_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">_remove_stopwords</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">list_data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">stopword_list</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># it&#39;s better to have one method every token goes through, then do every test seperately for the token list</span>
         <span class="c1"># because that way each token only needs to be touched once (which is more effective)</span>
@@ -1398,13 +1728,13 @@ PreprocessModule            (<a class="autorefs autorefs-external" title="kiara.
                 <span class="k">if</span> <span class="n">_token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">return</span> <span class="kc">None</span>
 
-            <span class="k">if</span> <span class="n">remove_stopwords</span> <span class="ow">and</span> <span class="n">_token</span> <span class="ow">in</span> <span class="n">remove_stopwords</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">stopword_list</span> <span class="ow">and</span> <span class="n">_token</span> <span class="ow">and</span> <span class="n">_token</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">stopword_list</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
 
             <span class="k">return</span> <span class="n">token</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="n">vaex</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">tokens_array</span><span class="o">.</span><span class="n">arrow_array</span><span class="p">)</span>
-        <span class="c1"># tokenized = df.apply(check_token, arguments=[df.column])</span>
+
         <span class="n">processed</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
             <span class="k">lambda</span> <span class="n">token_list</span><span class="p">:</span> <span class="p">[</span>
                 <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">check_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">token_list</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
@@ -1574,7 +1904,11 @@ PreprocessModule            (<a class="autorefs autorefs-external" title="kiara.
     <span class="n">remove_all_numeric</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;remove_all_numeric&quot;</span><span class="p">)</span>
     <span class="n">remove_short_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;remove_short_tokens&quot;</span><span class="p">)</span>
 
-    <span class="n">remove_stopwords</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;remove_stopwords&quot;</span><span class="p">)</span>
+    <span class="n">_remove_stopwords</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_obj</span><span class="p">(</span><span class="s2">&quot;remove_stopwords&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">_remove_stopwords</span><span class="o">.</span><span class="n">is_set</span><span class="p">:</span>
+        <span class="n">stopword_list</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">_remove_stopwords</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">list_data</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">stopword_list</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="c1"># it&#39;s better to have one method every token goes through, then do every test seperately for the token list</span>
     <span class="c1"># because that way each token only needs to be touched once (which is more effective)</span>
@@ -1606,13 +1940,13 @@ PreprocessModule            (<a class="autorefs autorefs-external" title="kiara.
             <span class="k">if</span> <span class="n">_token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="k">if</span> <span class="n">remove_stopwords</span> <span class="ow">and</span> <span class="n">_token</span> <span class="ow">in</span> <span class="n">remove_stopwords</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">stopword_list</span> <span class="ow">and</span> <span class="n">_token</span> <span class="ow">and</span> <span class="n">_token</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">stopword_list</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="k">return</span> <span class="n">token</span>
 
     <span class="n">df</span> <span class="o">=</span> <span class="n">vaex</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">tokens_array</span><span class="o">.</span><span class="n">arrow_array</span><span class="p">)</span>
-    <span class="c1"># tokenized = df.apply(check_token, arguments=[df.column])</span>
+
     <span class="n">processed</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">token_list</span><span class="p">:</span> <span class="p">[</span>
             <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">check_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">token_list</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>

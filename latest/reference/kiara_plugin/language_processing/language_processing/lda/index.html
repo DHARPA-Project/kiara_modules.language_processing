@@ -1050,10 +1050,12 @@ LDAModule            (<a class="autorefs autorefs-external" title="kiara.modules
         <span class="k">else</span><span class="p">:</span>
             <span class="n">coherence_table</span> <span class="o">=</span> <span class="kc">None</span>
 
+        <span class="n">coherence_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">coherence</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
         <span class="n">outputs</span><span class="o">.</span><span class="n">set_values</span><span class="p">(</span>
             <span class="n">topic_models</span><span class="o">=</span><span class="n">model_tables</span><span class="p">,</span>
             <span class="n">coherence_table</span><span class="o">=</span><span class="n">coherence_table</span><span class="p">,</span>
-            <span class="n">coherence_map</span><span class="o">=</span><span class="n">coherence</span><span class="p">,</span>
+            <span class="n">coherence_map</span><span class="o">=</span><span class="n">coherence_map</span><span class="p">,</span>
         <span class="p">)</span>
 </code></pre></div>
         </details>
@@ -1397,10 +1399,12 @@ LDAModule            (<a class="autorefs autorefs-external" title="kiara.modules
     <span class="k">else</span><span class="p">:</span>
         <span class="n">coherence_table</span> <span class="o">=</span> <span class="kc">None</span>
 
+    <span class="n">coherence_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">coherence</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
     <span class="n">outputs</span><span class="o">.</span><span class="n">set_values</span><span class="p">(</span>
         <span class="n">topic_models</span><span class="o">=</span><span class="n">model_tables</span><span class="p">,</span>
         <span class="n">coherence_table</span><span class="o">=</span><span class="n">coherence_table</span><span class="p">,</span>
-        <span class="n">coherence_map</span><span class="o">=</span><span class="n">coherence</span><span class="p">,</span>
+        <span class="n">coherence_map</span><span class="o">=</span><span class="n">coherence_map</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div>
         </details>

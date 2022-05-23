@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#kiara_info.operations.generate.LDA.for.tokens_array" class="md-skip">
+        <a href="#kiara_info.operations.create.stopwords_list" class="md-skip">
           Skip to content
         </a>
       
@@ -305,6 +305,13 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.operations.create.stopwords_list" class="md-nav__link">
+    create.stopwords_list
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#kiara_info.operations.generate.LDA.for.tokens_array" class="md-nav__link">
@@ -640,6 +647,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#kiara_info.operations.create.stopwords_list" class="md-nav__link">
+    create.stopwords_list
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#kiara_info.operations.generate.LDA.for.tokens_array" class="md-nav__link">
     generate.LDA.for.tokens_array
   </a>
@@ -690,6 +704,70 @@
 
   <h1>operations</h1>
 
+<h3 id="kiara_info.operations.create.stopwords_list"><code>create.stopwords_list</code><a class="headerlink" href="#kiara_info.operations.create.stopwords_list" title="Permanent link">&para;</a></h3>
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">                                                                                
+ <span style="font-style: italic">Documentation    </span>                                                              
+ <span style="font-style: italic">                 </span>   Create a list of stopwords from one or multiple sources.   
+ <span style="font-style: italic">                 </span>                                                              
+ <span style="font-style: italic">                 </span>   This will download nltk stopwords if necessary, and        
+ <span style="font-style: italic">                 </span>   merge all input lists into a single, sorted list without   
+ <span style="font-style: italic">                 </span>   duplicates.                                                
+ <span style="font-style: italic">                 </span>                                                              
+ <span style="font-style: italic">Author(s)        </span>                                                              
+ <span style="font-style: italic">                 </span>   Markus Binsteiner  <span style="font-style: italic"> markus@frkl.io </span>                        
+ <span style="font-style: italic">                 </span>                                                              
+ <span style="font-style: italic">Context          </span>                                                              
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic"> Tags       </span>  language_processing                           
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic"> Labels     </span>  <span style="font-style: italic">package</span>: kiara_plugin.language_processing     
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic"> References </span>  <span style="font-style: italic">source_repo</span>:                                  
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">            </span>  <a href="https://github.com/DHARPA-Project/kiara_plugin.language_processing" target="_blank">https://github.com/DHARPA-Project/kiara_pl…</a>   
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">            </span>  <span style="font-style: italic">documentation</span>:                                
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">            </span>  <a href="https://DHARPA-Project.github.io/kiara_plugin.language_processing/" target="_blank">https://DHARPA-Project.github.io/kiara_plu…</a>   
+ <span style="font-style: italic">                 </span>                                                              
+ <span style="font-style: italic">Operation details</span>                                                              
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic"> Documentation </span>  Create a list of stopwords from one or     
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>  multiple sources.                          
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>                                             
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>  This will download nltk stopwords if       
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>  necessary, and merge all input lists       
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>  into a single, sorted list without         
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>  duplicates.                                
+ <span style="font-style: italic">                 </span>                                                              
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic"> Inputs        </span>                                             
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-weight: bold"> field </span> <span style="font-weight: bold">      </span> <span style="font-weight: bold">       </span> <span style="font-weight: bold">       </span> <span style="font-weight: bold">       </span>    
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-weight: bold"> name  </span> <span style="font-weight: bold"> type </span> <span style="font-weight: bold"> desc… </span> <span style="font-weight: bold"> Requ… </span> <span style="font-weight: bold"> Defa… </span>    
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   ──────────────────────────────────────    
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic"> lang… </span>  list   A       no      -- no     
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         list            defa…     
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         of              --        
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         lang…                     
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         will                      
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         be                        
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         used                      
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         to                        
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         retr…                     
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         lang…                     
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         stop…                     
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         from                      
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         nltk.                     
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic"> stop… </span>  list   A       no      -- no     
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         list            defa…     
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         of              --        
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         lists                     
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         of                        
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">       </span>         stop…                     
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>                                             
+ <span style="font-style: italic">                 </span>                                                              
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic"> Outputs       </span>                                             
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-weight: bold"> field name    </span> <span style="font-weight: bold"> type </span> <span style="font-weight: bold"> description   </span>    
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   ──────────────────────────────────────    
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic"> stopwords_li… </span>  list   A sorted list     
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">               </span>         of unique         
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>   <span style="font-style: italic">               </span>         stopwords.        
+ <span style="font-style: italic">                 </span>  <span style="font-style: italic">               </span>                                             
+ <span style="font-style: italic">                 </span>                                                              
+                                                                                
+</pre>
 <h3 id="kiara_info.operations.generate.LDA.for.tokens_array"><code>generate.LDA.for.tokens_array</code><a class="headerlink" href="#kiara_info.operations.generate.LDA.for.tokens_array" title="Permanent link">&para;</a></h3>
 <pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">                                                                                
  <span style="font-style: italic">Documentation    </span>                                                              
