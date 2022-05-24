@@ -412,31 +412,31 @@ class PreprocessModule(KiaraModule):
                 if len(token) <= remove_short_tokens:
                     return None
 
-            _token: Optional[str] = token
+            _token: str = token
             if lowercase:
-                _token = token.lower()
+                _token = _token.lower()
 
             if remove_non_alpha:
-                _token = token if token.isalpha() else None
-                if _token is None:
+                match = _token if _token.isalpha() else None
+                if match is None:
                     return None
 
             # if remove_non_alpha was set, we don't need to worry about tokens that include numbers, since they are already filtered out
             if remove_alphanumeric and not remove_non_alpha:
-                _token = token if token.isalnum() else None
-                if _token is None:
+                match = _token if _token.isalnum() else None
+                if match is None:
                     return None
 
             # all-number tokens are already filtered out if the remove_non_alpha methods above ran
             if remove_all_numeric and not remove_non_alpha:
-                _token = None if token.isdigit() else token
-                if _token is None:
+                match = None if _token.isdigit() else _token
+                if match is None:
                     return None
 
             if stopword_list and _token and _token.lower() in stopword_list:
                 return None
 
-            return token
+            return _token
 
         df = vaex.from_arrays(column=tokens_array.arrow_array)
 
