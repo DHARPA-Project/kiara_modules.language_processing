@@ -28,7 +28,7 @@ requirements:
     - kiara_plugin.core_types>=0.4.6
     - kiara_plugin.tabular>=0.4.6
     - nltk>=3.7
-    - vaex-core>=4.9.0
+    - polars>=0.13.50
 about:
   home: https://github.com/DHARPA-Project/kiara_plugin.language_processing
   license: "Mozilla Public 2.0 (MPL 2.0)"
