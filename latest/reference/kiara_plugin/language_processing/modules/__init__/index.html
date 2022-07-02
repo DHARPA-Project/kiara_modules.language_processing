@@ -658,6 +658,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#kiara_plugin.language_processing.modules.tokens.log" class="md-nav__link">
+    log
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#kiara_plugin.language_processing.modules.tokens-classes" class="md-nav__link">
     Classes
   </a>
@@ -1520,6 +1527,24 @@ LDAModule            (<a class="autorefs autorefs-external" title="kiara.modules
 
 
 
+
+  <div class="doc doc-object doc-attribute">
+
+
+
+<h5 id="kiara_plugin.language_processing.modules.tokens.log" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">log</span></code>
+
+
+<a href="#kiara_plugin.language_processing.modules.tokens.log" class="headerlink" title="Permanent link">&para;</a></h5>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+  </div>
+
+
 <h4 id="kiara_plugin.language_processing.modules.tokens-classes">Classes<a href="#kiara_plugin.language_processing.modules.tokens-classes" class="headerlink" title="Permanent link">&para;</a></h4>
 
   <div class="doc doc-object doc-class">
@@ -1846,8 +1871,8 @@ PreprocessModule            (<a class="autorefs autorefs-external" title="kiara.
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">):</span>
 
+        <span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
         <span class="kn">import</span> <span class="nn">pyarrow</span> <span class="k">as</span> <span class="nn">pa</span>
-        <span class="kn">import</span> <span class="nn">vaex</span>
 
         <span class="n">tokens_array</span><span class="p">:</span> <span class="n">KiaraArray</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;tokens_array&quot;</span><span class="p">)</span>
         <span class="n">lowercase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;to_lowercase&quot;</span><span class="p">)</span>
@@ -1897,18 +1922,38 @@ PreprocessModule            (<a class="autorefs autorefs-external" title="kiara.
 
             <span class="k">return</span> <span class="n">_token</span>
 
-        <span class="n">df</span> <span class="o">=</span> <span class="n">vaex</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">tokens_array</span><span class="o">.</span><span class="n">arrow_array</span><span class="p">)</span>
+        <span class="c1"># the following doesn&#39;t work due to bug: https://github.com/pola-rs/polars/issues/3867</span>
+        <span class="c1"># replace current code once that is fixed</span>
+        <span class="c1"># series = pl.Series(name=&quot;tokens&quot;, values=tokens_array.arrow_array)</span>
+        <span class="c1"># result = series.apply(lambda token_list: [</span>
+        <span class="c1">#         x for x in (check_token(token) for token in token_list) if x is not None</span>
+        <span class="c1">#     ])</span>
+        <span class="c1"># print(result.dtype)</span>
+        <span class="c1">#</span>
+        <span class="c1"># result_array = result.to_arrow()</span>
+        <span class="c1">#</span>
+        <span class="c1"># # TODO: remove this cast once the array data type can handle non-chunked arrays</span>
+        <span class="c1"># chunked = pa.chunked_array(result_array)</span>
+        <span class="c1"># outputs.set_values(tokens_array=chunked)</span>
 
-        <span class="n">processed</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-            <span class="k">lambda</span> <span class="n">token_list</span><span class="p">:</span> <span class="p">[</span>
-                <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">check_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">token_list</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-            <span class="p">],</span>
-            <span class="n">arguments</span><span class="o">=</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">column</span><span class="p">],</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Table</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">([</span><span class="n">tokens_array</span><span class="o">.</span><span class="n">arrow_array</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;tokens&quot;</span><span class="p">])</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">table</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">check_tokens</span><span class="p">(</span><span class="n">token_list</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">x</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">check_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">token_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="p">]</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">result</span><span class="p">,)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+            <span class="n">check_tokens</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">datatypes</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">datatypes</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="n">result_array</span> <span class="o">=</span> <span class="n">processed</span><span class="o">.</span><span class="n">to_arrow</span><span class="p">(</span><span class="n">convert_to_native</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="c1"># TODO: remove this cast once the array data type can handle non-chunked arrays</span>
-        <span class="n">chunked</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">chunked_array</span><span class="p">(</span><span class="n">result_array</span><span class="p">)</span>
+        <span class="n">column</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="s2">&quot;column_0&quot;</span><span class="p">)</span>
 
+        <span class="n">array</span> <span class="o">=</span> <span class="n">column</span><span class="o">.</span><span class="n">to_arrow</span><span class="p">()</span>
+        <span class="n">chunked</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">chunked_array</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
         <span class="n">outputs</span><span class="o">.</span><span class="n">set_values</span><span class="p">(</span><span class="n">tokens_array</span><span class="o">=</span><span class="n">chunked</span><span class="p">)</span>
 </code></pre></div>
         </details>
@@ -2058,8 +2103,8 @@ PreprocessModule            (<a class="autorefs autorefs-external" title="kiara.
           <summary>Source code in <code>language_processing/modules/tokens.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">):</span>
 
+    <span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
     <span class="kn">import</span> <span class="nn">pyarrow</span> <span class="k">as</span> <span class="nn">pa</span>
-    <span class="kn">import</span> <span class="nn">vaex</span>
 
     <span class="n">tokens_array</span><span class="p">:</span> <span class="n">KiaraArray</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;tokens_array&quot;</span><span class="p">)</span>
     <span class="n">lowercase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;to_lowercase&quot;</span><span class="p">)</span>
@@ -2109,18 +2154,38 @@ PreprocessModule            (<a class="autorefs autorefs-external" title="kiara.
 
         <span class="k">return</span> <span class="n">_token</span>
 
-    <span class="n">df</span> <span class="o">=</span> <span class="n">vaex</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">tokens_array</span><span class="o">.</span><span class="n">arrow_array</span><span class="p">)</span>
+    <span class="c1"># the following doesn&#39;t work due to bug: https://github.com/pola-rs/polars/issues/3867</span>
+    <span class="c1"># replace current code once that is fixed</span>
+    <span class="c1"># series = pl.Series(name=&quot;tokens&quot;, values=tokens_array.arrow_array)</span>
+    <span class="c1"># result = series.apply(lambda token_list: [</span>
+    <span class="c1">#         x for x in (check_token(token) for token in token_list) if x is not None</span>
+    <span class="c1">#     ])</span>
+    <span class="c1"># print(result.dtype)</span>
+    <span class="c1">#</span>
+    <span class="c1"># result_array = result.to_arrow()</span>
+    <span class="c1">#</span>
+    <span class="c1"># # TODO: remove this cast once the array data type can handle non-chunked arrays</span>
+    <span class="c1"># chunked = pa.chunked_array(result_array)</span>
+    <span class="c1"># outputs.set_values(tokens_array=chunked)</span>
 
-    <span class="n">processed</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">token_list</span><span class="p">:</span> <span class="p">[</span>
-            <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">check_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">token_list</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="p">],</span>
-        <span class="n">arguments</span><span class="o">=</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">column</span><span class="p">],</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Table</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">([</span><span class="n">tokens_array</span><span class="o">.</span><span class="n">arrow_array</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;tokens&quot;</span><span class="p">])</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">table</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">check_tokens</span><span class="p">(</span><span class="n">token_list</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">x</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">check_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">token_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">result</span><span class="p">,)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="n">check_tokens</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">datatypes</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">datatypes</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">result_array</span> <span class="o">=</span> <span class="n">processed</span><span class="o">.</span><span class="n">to_arrow</span><span class="p">(</span><span class="n">convert_to_native</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="c1"># TODO: remove this cast once the array data type can handle non-chunked arrays</span>
-    <span class="n">chunked</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">chunked_array</span><span class="p">(</span><span class="n">result_array</span><span class="p">)</span>
+    <span class="n">column</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="s2">&quot;column_0&quot;</span><span class="p">)</span>
 
+    <span class="n">array</span> <span class="o">=</span> <span class="n">column</span><span class="o">.</span><span class="n">to_arrow</span><span class="p">()</span>
+    <span class="n">chunked</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">chunked_array</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
     <span class="n">outputs</span><span class="o">.</span><span class="n">set_values</span><span class="p">(</span><span class="n">tokens_array</span><span class="o">=</span><span class="n">chunked</span><span class="p">)</span>
 </code></pre></div>
         </details>
@@ -2476,40 +2541,50 @@ In other words, this operation establishes the word boundaries (i.e., tokens) a 
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">):</span>
 
-        <span class="kn">import</span> <span class="nn">warnings</span>
+        <span class="k">pass</span>
 
         <span class="kn">import</span> <span class="nn">nltk</span>
-        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+        <span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
         <span class="kn">import</span> <span class="nn">pyarrow</span> <span class="k">as</span> <span class="nn">pa</span>
-        <span class="kn">import</span> <span class="nn">vaex</span>
 
         <span class="n">array</span><span class="p">:</span> <span class="n">KiaraArray</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;texts_array&quot;</span><span class="p">)</span>
         <span class="c1"># tokenize_by_word: bool = inputs.get_value_data(&quot;tokenize_by_word&quot;)</span>
 
-        <span class="n">column</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">Array</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">arrow_array</span>
+        <span class="n">column</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">ChunkedArray</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">arrow_array</span>
 
-        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">VisibleDeprecationWarning</span><span class="p">)</span>
+        <span class="c1"># warnings.filterwarnings(&quot;ignore&quot;, category=np.VisibleDeprecationWarning)</span>
 
-        <span class="k">def</span> <span class="nf">word_tokenize</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">result</span>
+        <span class="c1"># the following doesn&#39;t work due to bug: https://github.com/pola-rs/polars/issues/3867</span>
+        <span class="c1"># replace current code once that is fixed</span>
+        <span class="c1"># def word_tokenize(word):</span>
+        <span class="c1">#     result = nltk.word_tokenize(word)</span>
+        <span class="c1">#     return result</span>
+        <span class="c1">#</span>
+        <span class="c1"># series = pl.Series(name=&quot;tokens&quot;, values=column)</span>
+        <span class="c1"># result = series.apply(word_tokenize)</span>
+        <span class="c1"># print(result.dtype)</span>
+        <span class="c1">#</span>
+        <span class="c1"># result_array = result.to_arrow()</span>
+        <span class="c1">#</span>
+        <span class="c1"># # TODO: remove this cast once the array data type can handle non-chunked arrays</span>
+        <span class="c1"># chunked = pa.chunked_array(result_array)</span>
+        <span class="c1"># outputs.set_values(tokens_array=chunked)</span>
 
-        <span class="n">df</span> <span class="o">=</span> <span class="n">vaex</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">column</span><span class="p">)</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Table</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">([</span><span class="n">column</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;tokens&quot;</span><span class="p">])</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">table</span><span class="p">)</span>
 
-        <span class="n">tokenized</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">word_tokenize</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">column</span><span class="p">])</span>
+        <span class="k">def</span> <span class="nf">word_tokenize</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">result</span><span class="p">,)</span>
 
-        <span class="n">result_array</span> <span class="o">=</span> <span class="n">tokenized</span><span class="o">.</span><span class="n">to_arrow</span><span class="p">(</span><span class="n">convert_to_native</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="c1"># TODO: remove this cast once the array data type can handle non-chunked arrays</span>
-        <span class="n">chunked</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">chunked_array</span><span class="p">(</span><span class="n">result_array</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+            <span class="n">word_tokenize</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">datatypes</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">inner</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">datatypes</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">column</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="s2">&quot;column_0&quot;</span><span class="p">)</span>
+
+        <span class="n">array</span> <span class="o">=</span> <span class="n">column</span><span class="o">.</span><span class="n">to_arrow</span><span class="p">()</span>
+        <span class="n">chunked</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">chunked_array</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
         <span class="n">outputs</span><span class="o">.</span><span class="n">set_values</span><span class="p">(</span><span class="n">tokens_array</span><span class="o">=</span><span class="n">chunked</span><span class="p">)</span>
-
-        <span class="c1"># pandas_series: Series = column.to_pandas()</span>
-        <span class="c1">#</span>
-        <span class="c1"># tokenized = pandas_series.apply(lambda x: nltk.word_tokenize(x))</span>
-        <span class="c1">#</span>
-        <span class="c1"># result_array = pa.Array.from_pandas(tokenized)</span>
-        <span class="c1">#</span>
-        <span class="c1"># outputs.set_values(tokens_array=result_array)</span>
 </code></pre></div>
         </details>
 
@@ -2633,40 +2708,50 @@ In other words, this operation establishes the word boundaries (i.e., tokens) a 
           <summary>Source code in <code>language_processing/modules/tokens.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">ValueMap</span><span class="p">):</span>
 
-    <span class="kn">import</span> <span class="nn">warnings</span>
+    <span class="k">pass</span>
 
     <span class="kn">import</span> <span class="nn">nltk</span>
-    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
     <span class="kn">import</span> <span class="nn">pyarrow</span> <span class="k">as</span> <span class="nn">pa</span>
-    <span class="kn">import</span> <span class="nn">vaex</span>
 
     <span class="n">array</span><span class="p">:</span> <span class="n">KiaraArray</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_data</span><span class="p">(</span><span class="s2">&quot;texts_array&quot;</span><span class="p">)</span>
     <span class="c1"># tokenize_by_word: bool = inputs.get_value_data(&quot;tokenize_by_word&quot;)</span>
 
-    <span class="n">column</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">Array</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">arrow_array</span>
+    <span class="n">column</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">ChunkedArray</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">arrow_array</span>
 
-    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">VisibleDeprecationWarning</span><span class="p">)</span>
+    <span class="c1"># warnings.filterwarnings(&quot;ignore&quot;, category=np.VisibleDeprecationWarning)</span>
 
-    <span class="k">def</span> <span class="nf">word_tokenize</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">result</span>
+    <span class="c1"># the following doesn&#39;t work due to bug: https://github.com/pola-rs/polars/issues/3867</span>
+    <span class="c1"># replace current code once that is fixed</span>
+    <span class="c1"># def word_tokenize(word):</span>
+    <span class="c1">#     result = nltk.word_tokenize(word)</span>
+    <span class="c1">#     return result</span>
+    <span class="c1">#</span>
+    <span class="c1"># series = pl.Series(name=&quot;tokens&quot;, values=column)</span>
+    <span class="c1"># result = series.apply(word_tokenize)</span>
+    <span class="c1"># print(result.dtype)</span>
+    <span class="c1">#</span>
+    <span class="c1"># result_array = result.to_arrow()</span>
+    <span class="c1">#</span>
+    <span class="c1"># # TODO: remove this cast once the array data type can handle non-chunked arrays</span>
+    <span class="c1"># chunked = pa.chunked_array(result_array)</span>
+    <span class="c1"># outputs.set_values(tokens_array=chunked)</span>
 
-    <span class="n">df</span> <span class="o">=</span> <span class="n">vaex</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">column</span><span class="p">)</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Table</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">([</span><span class="n">column</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;tokens&quot;</span><span class="p">])</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">table</span><span class="p">)</span>
 
-    <span class="n">tokenized</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">word_tokenize</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">column</span><span class="p">])</span>
+    <span class="k">def</span> <span class="nf">word_tokenize</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">result</span><span class="p">,)</span>
 
-    <span class="n">result_array</span> <span class="o">=</span> <span class="n">tokenized</span><span class="o">.</span><span class="n">to_arrow</span><span class="p">(</span><span class="n">convert_to_native</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="c1"># TODO: remove this cast once the array data type can handle non-chunked arrays</span>
-    <span class="n">chunked</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">chunked_array</span><span class="p">(</span><span class="n">result_array</span><span class="p">)</span>
+    <span class="n">result</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="n">word_tokenize</span><span class="p">,</span> <span class="n">return_dtype</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">datatypes</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">inner</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">datatypes</span><span class="o">.</span><span class="n">Utf8</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">column</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="s2">&quot;column_0&quot;</span><span class="p">)</span>
+
+    <span class="n">array</span> <span class="o">=</span> <span class="n">column</span><span class="o">.</span><span class="n">to_arrow</span><span class="p">()</span>
+    <span class="n">chunked</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">chunked_array</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
     <span class="n">outputs</span><span class="o">.</span><span class="n">set_values</span><span class="p">(</span><span class="n">tokens_array</span><span class="o">=</span><span class="n">chunked</span><span class="p">)</span>
-
-    <span class="c1"># pandas_series: Series = column.to_pandas()</span>
-    <span class="c1">#</span>
-    <span class="c1"># tokenized = pandas_series.apply(lambda x: nltk.word_tokenize(x))</span>
-    <span class="c1">#</span>
-    <span class="c1"># result_array = pa.Array.from_pandas(tokenized)</span>
-    <span class="c1">#</span>
-    <span class="c1"># outputs.set_values(tokens_array=result_array)</span>
 </code></pre></div>
         </details>
     </div>
@@ -3156,12 +3241,13 @@ _config_cls            (<a class="autorefs autorefs-external" title="kiara.model
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_stopwords</span><span class="p">():</span>
 
     <span class="c1"># TODO: make that smarter</span>
-    <span class="k">pass</span>
-
     <span class="kn">import</span> <span class="nn">nltk</span>
 
-    <span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;punkt&quot;</span><span class="p">)</span>
-    <span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;stopwords&quot;</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+    <span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;punkt&quot;</span><span class="p">,</span> <span class="n">print_error_to</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+    <span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;stopwords&quot;</span><span class="p">,</span> <span class="n">print_error_to</span><span class="o">=</span><span class="n">output</span><span class="p">)</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;external.message&quot;</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s2">&quot;nltk&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">output</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
     <span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
 
     <span class="k">return</span> <span class="n">stopwords</span>
