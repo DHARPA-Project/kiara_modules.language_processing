@@ -147,36 +147,17 @@ class TokenizeTextArrayeModule(KiaraModule):
 
         # warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
 
-        # the following doesn't work due to bug: https://github.com/pola-rs/polars/issues/3867
-        # replace current code once that is fixed
-        # def word_tokenize(word):
-        #     result = nltk.word_tokenize(word)
-        #     return result
-        #
-        # series = pl.Series(name="tokens", values=column)
-        # result = series.apply(word_tokenize)
-        # print(result.dtype)
-        #
-        # result_array = result.to_arrow()
-        #
-        # # TODO: remove this cast once the array data type can handle non-chunked arrays
-        # chunked = pa.chunked_array(result_array)
-        # outputs.set_values(tokens_array=chunked)
+        def word_tokenize(word):
+            result = nltk.word_tokenize(word)
+            return result
 
-        table = pa.Table.from_arrays([column], ["tokens"])
-        df = pl.DataFrame(data=table)
+        series = pl.Series(name="tokens", values=column)
+        result = series.apply(word_tokenize)
 
-        def word_tokenize(row):
-            result = nltk.word_tokenize(row[0])
-            return (result,)
+        result_array = result.to_arrow()
 
-        result: pl.DataFrame = df.apply(
-            word_tokenize, return_dtype=pl.datatypes.List(inner=pl.datatypes.Utf8)
-        )
-        column = result.get_column("column_0")
-
-        array = column.to_arrow()
-        chunked = pa.chunked_array(array)
+        # TODO: remove this cast once the array data type can handle non-chunked arrays
+        chunked = pa.chunked_array(result_array)
         outputs.set_values(tokens_array=chunked)
 
 
@@ -411,6 +392,9 @@ class PreprocessModule(KiaraModule):
         remove_all_numeric: bool = inputs.get_value_data("remove_all_numeric")
         remove_short_tokens: int = inputs.get_value_data("remove_short_tokens")
 
+        if remove_short_tokens is None:
+            remove_short_tokens = -1
+
         _remove_stopwords = inputs.get_value_obj("remove_stopwords")
         if _remove_stopwords.is_set:
             stopword_list: Optional[Iterable[str]] = _remove_stopwords.data.list_data
@@ -452,36 +436,14 @@ class PreprocessModule(KiaraModule):
 
             return _token
 
-        # the following doesn't work due to bug: https://github.com/pola-rs/polars/issues/3867
-        # replace current code once that is fixed
-        # series = pl.Series(name="tokens", values=tokens_array.arrow_array)
-        # result = series.apply(lambda token_list: [
-        #         x for x in (check_token(token) for token in token_list) if x is not None
-        #     ])
-        # print(result.dtype)
-        #
-        # result_array = result.to_arrow()
-        #
-        # # TODO: remove this cast once the array data type can handle non-chunked arrays
-        # chunked = pa.chunked_array(result_array)
-        # outputs.set_values(tokens_array=chunked)
-
-        table = pa.Table.from_arrays([tokens_array.arrow_array], ["tokens"])
-        df = pl.DataFrame(data=table)
-
-        def check_tokens(token_list):
-            result = [
-                x
-                for x in (check_token(token) for token in token_list[0])
-                if x is not None
+        series = pl.Series(name="tokens", values=tokens_array.arrow_array)
+        result = series.apply(
+            lambda token_list: [
+                x for x in (check_token(token) for token in token_list) if x is not None
             ]
-            return (result,)
-
-        result = df.apply(
-            check_tokens, return_dtype=pl.datatypes.List(pl.datatypes.Utf8)
         )
-        column = result.get_column("column_0")
+        result_array = result.to_arrow()
 
-        array = column.to_arrow()
-        chunked = pa.chunked_array(array)
+        # TODO: remove this cast once the array data type can handle non-chunked arrays
+        chunked = pa.chunked_array(result_array)
         outputs.set_values(tokens_array=chunked)
