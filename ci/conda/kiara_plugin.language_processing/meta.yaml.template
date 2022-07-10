@@ -24,11 +24,10 @@ requirements:
   run:
     - python
     - gensim>=4.2.0
-    - kiara>=0.4.9
-    - kiara_plugin.core_types>=0.4.6
-    - kiara_plugin.tabular>=0.4.6
+    - kiara>=0.4.14
+    - kiara_plugin.core_types>=0.4.8
+    - kiara_plugin.tabular>=0.4.9
     - nltk>=3.7
-    - polars>=0.13.52
 about:
   home: https://github.com/DHARPA-Project/kiara_plugin.language_processing
   license: "Mozilla Public 2.0 (MPL 2.0)"
