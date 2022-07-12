@@ -6,7 +6,7 @@ from typing import Any, Dict, Mapping
 from kiara import KiaraModule
 from kiara.models.values.value import ValueMap
 from kiara.modules import ValueSetSchema
-from kiara_plugin.tabular.models.table import KiaraArray
+from kiara_plugin.tabular.models.array import KiaraArray
 
 
 class LDAModule(KiaraModule):

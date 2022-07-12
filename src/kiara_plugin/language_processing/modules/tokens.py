@@ -9,7 +9,7 @@ from kiara.models.module import KiaraModuleConfig
 from kiara.models.values.value import ValueMap
 from kiara.modules import ValueSetSchema
 from kiara_plugin.core_types.models import ListModel
-from kiara_plugin.tabular.models.table import KiaraArray
+from kiara_plugin.tabular.models.array import KiaraArray
 from pydantic import Field
 
 log = structlog.getLogger()
