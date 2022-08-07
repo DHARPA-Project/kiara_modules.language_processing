@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # from typing import Mapping, Union, Any
 #
-# from kiara import KiaraModule
+# from kiara.modules import KiaraModule
 # from kiara.models.values.value import ValueMap
 # from kiara.modules import ValueSetSchema
 #

@@ -3,9 +3,8 @@ import logging
 import re
 from typing import Any, Dict, Mapping
 
-from kiara import KiaraModule
 from kiara.models.values.value import ValueMap
-from kiara.modules import ValueSetSchema
+from kiara.modules import KiaraModule, ValueSetSchema
 from kiara_plugin.tabular.models.array import KiaraArray
 
 

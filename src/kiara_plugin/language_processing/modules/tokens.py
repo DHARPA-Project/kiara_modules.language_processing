@@ -3,11 +3,10 @@ import io
 from typing import Any, Dict, Iterable, Optional
 
 import structlog
-from kiara import KiaraModule
 from kiara.exceptions import KiaraProcessingException
 from kiara.models.module import KiaraModuleConfig
 from kiara.models.values.value import ValueMap
-from kiara.modules import ValueSetSchema
+from kiara.modules import KiaraModule, ValueSetSchema
 from kiara_plugin.core_types.models import ListModel
 from kiara_plugin.tabular.models.array import KiaraArray
 from pydantic import Field
