@@ -1,0 +1,1550 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Markus Binsteiner">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.4.2">
+    
+    
+      
+        <title>module_types - kiara_plugin.language_processing</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.69437709.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kiara_info.module_types.generate.LDA.for.tokens_array" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="kiara_plugin.language_processing" class="md-header__button md-logo" aria-label="kiara_plugin.language_processing" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            kiara_plugin.language_processing
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              module_types
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DHARPA-Project/kiara_plugin.language_processing" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="kiara_plugin.language_processing" class="md-nav__button md-logo" aria-label="kiara_plugin.language_processing" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    kiara_plugin.language_processing
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DHARPA-Project/kiara_plugin.language_processing" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Package contents
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Package contents" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Package contents
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          module_types
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        module_types
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.module_types.generate.LDA.for.tokens_array" class="md-nav__link">
+    generate.LDA.for.tokens_array
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.module_types.tokenize.string" class="md-nav__link">
+    tokenize.string
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.module_types.tokenize.texts_array" class="md-nav__link">
+    tokenize.texts_array
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.module_types.create.stopwords_list" class="md-nav__link">
+    create.stopwords_list
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.module_types.remove_stopwords.from.tokens_array" class="md-nav__link">
+    remove_stopwords.from.tokens_array
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.module_types.preprocess.tokens_array" class="md-nav__link">
+    preprocess.tokens_array
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/" class="md-nav__link">
+        operations
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/" class="md-nav__link">
+        Usage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/" class="md-nav__link">
+        Development
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          API reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          API reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1" type="checkbox" id="__nav_5_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_1">
+          kiara_plugin
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="kiara_plugin" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          kiara_plugin
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1_1" type="checkbox" id="__nav_5_1_1" >
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../reference/kiara_plugin/language_processing/__init__/">language_processing</a>
+          
+            <label for="__nav_5_1_1">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="language_processing" data-md-level="3">
+        <label class="md-nav__title" for="__nav_5_1_1">
+          <span class="md-nav__icon md-icon"></span>
+          language_processing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/kiara_plugin/language_processing/data_types/" class="md-nav__link">
+        data_types
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/kiara_plugin/language_processing/models/" class="md-nav__link">
+        models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1_1_3" type="checkbox" id="__nav_5_1_1_3" >
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../reference/kiara_plugin/language_processing/modules/__init__/">modules</a>
+          
+            <label for="__nav_5_1_1_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="modules" data-md-level="4">
+        <label class="md-nav__title" for="__nav_5_1_1_3">
+          <span class="md-nav__icon md-icon"></span>
+          modules
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/kiara_plugin/language_processing/modules/lda/" class="md-nav__link">
+        lda
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/kiara_plugin/language_processing/modules/lemmatize/" class="md-nav__link">
+        lemmatize
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/kiara_plugin/language_processing/modules/tokens/" class="md-nav__link">
+        tokens
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/kiara_plugin/language_processing/pipelines/__init__/" class="md-nav__link">
+        pipelines
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.module_types.generate.LDA.for.tokens_array" class="md-nav__link">
+    generate.LDA.for.tokens_array
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.module_types.tokenize.string" class="md-nav__link">
+    tokenize.string
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.module_types.tokenize.texts_array" class="md-nav__link">
+    tokenize.texts_array
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.module_types.create.stopwords_list" class="md-nav__link">
+    create.stopwords_list
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.module_types.remove_stopwords.from.tokens_array" class="md-nav__link">
+    remove_stopwords.from.tokens_array
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiara_info.module_types.preprocess.tokens_array" class="md-nav__link">
+    preprocess.tokens_array
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+  <h1>module_types</h1>
+
+<h3 id="kiara_info.module_types.generate.LDA.for.tokens_array"><code>generate.LDA.for.tokens_array</code><a class="headerlink" href="#kiara_info.module_types.generate.LDA.for.tokens_array" title="Permanent link">&para;</a></h3>
+<table>
+  <tr>
+    <td>type_name</td>
+    <td>generate.LDA.for.tokens_array</td>
+    <td>The registered name for this item type.</td>
+  </tr>
+  <tr>
+    <td>documentation</td>
+    <td><p>Perform Latent Dirichlet Allocation on a tokenized corpus.</p>
+<p>This module computes models for a range of number of topics provided by the user.</p>
+</td>
+    <td>Documentation for the item.</td>
+  </tr>
+  <tr>
+    <td>authors</td>
+    <td><ul>
+
+    <li>Markus Binsteiner ( <a href="mailto:markus@frkl.io">markus@frkl.io</a> )</li>
+
+</ul></td>
+    <td>Information about authorship for the item.</td>
+  </tr>
+  <tr>
+    <td>context</td>
+    <td><table xmlns="http://www.w3.org/1999/html">
+    <tbody>
+    <tr>
+    <td>tags</td>
+    <td>language_processing,LDA,tokens</td>
+    </tr>
+    <tr>
+        <td>labels</td>
+        <td>
+            <ul>
+        
+        <li>package: kiara_plugin.language_processing</li>
+        
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>references</td>
+        <td>
+        <ul>
+            
+            <li><a href="https://github.com/DHARPA-Project/kiara_plugin.language_processing">source_repo</a>: The module package git repository.</li>
+            
+            <li><a href="https://DHARPA-Project.github.io/kiara_plugin.language_processing/">documentation</a>: The url for the module package documentation.</li>
+            
+        </ul>
+        </td>
+    </tr>
+    </tbody>
+</table></td>
+    <td>Generic properties of this item (description, tags, labels, references, ...).</td>
+  </tr>
+  <tr>
+    <td>python_class</td>
+    <td><table>
+  <tr>
+    <td>python_class_name</td>
+    <td>LDAModule</td>
+    <td>The name of the Python class.</td>
+  </tr>
+  <tr>
+    <td>python_module_name</td>
+    <td>kiara_plugin.language_processing.modules.lda</td>
+    <td>The name of the Python module this class lives in.</td>
+  </tr>
+  <tr>
+    <td>full_name</td>
+    <td>kiara_plugin.language_processing.modules.lda.LDAModule</td>
+    <td>The full class namespace.</td>
+  </tr>
+</table></td>
+    <td>The python class that implements this module type.</td>
+  </tr>
+  <tr>
+    <td>process_src</td>
+    <td>def process(self, inputs: ValueMap, outputs: ValueMap) -> None:
+
+    from gensim import corpora
+
+    logging.getLogger("gensim").setLevel(logging.ERROR)
+    tokens_array: KiaraArray = inputs.get_value_data("tokens_array")
+    tokens = tokens_array.arrow_array.to_pylist()
+
+    words_per_topic = inputs.get_value_data("words_per_topic")
+
+    num_topics_min = inputs.get_value_data("num_topics_min")
+    num_topics_max = inputs.get_value_data("num_topics_max")
+    if num_topics_max is None:
+        num_topics_max = num_topics_min
+
+    compute_coherence = inputs.get_value_data("compute_coherence")
+    id2word = corpora.Dictionary(tokens)
+    corpus = [id2word.doc2bow(text) for text in tokens]
+
+    # model = gensim.models.ldamulticore.LdaMulticore(
+    #     corpus, id2word=id2word, num_topics=num_topics, eval_every=None
+    # )
+
+    models = {}
+    model_tables = {}
+    coherence = {}
+
+    # multi_threaded = False
+    # if not multi_threaded:
+
+    for nt in range(num_topics_min, num_topics_max + 1):
+        model = self.create_model(corpus=corpus, num_topics=nt, id2word=id2word)
+        models[nt] = model
+        topic_print_model = model.print_topics(num_words=words_per_topic)
+        # dbg(topic_print_model)
+        # df = pd.DataFrame(topic_print_model, columns=["topic_id", "words"])
+        # TODO: create table directly
+        # result_table = Table.from_pandas(df)
+        model_tables[nt] = topic_print_model
+
+        if compute_coherence:
+            coherence_result = self.compute_coherence(
+                model=model, corpus_model=tokens, id2word=id2word
+            )
+            coherence[nt] = coherence_result
+
+    # else:
+    #     def create_model(num_topics):
+    #         model = self.create_model(corpus=corpus, num_topics=num_topics, id2word=id2word)
+    #         topic_print_model = model.print_topics(num_words=30)
+    #         df = pd.DataFrame(topic_print_model, columns=["topic_id", "words"])
+    #         # TODO: create table directly
+    #         result_table = Table.from_pandas(df)
+    #         coherence_result = None
+    #         if compute_coherence:
+    #             coherence_result = self.compute_coherence(model=model, corpus_model=tokens, id2word=id2word)
+    #         return (num_topics, model, result_table, coherence_result)
+    #
+    #     executor = ThreadPoolExecutor()
+    #     results: typing.Any = executor.map(create_model, range(num_topics_min, num_topics_max+1))
+    #     executor.shutdown(wait=True)
+    #     for r in results:
+    #         models[r[0]] = r[1]
+    #         model_tables[r[0]] = r[2]
+    #         if compute_coherence:
+    #             coherence[r[0]] = r[3]
+
+    # df_coherence = pd.DataFrame(coherence.keys(), columns=["Number of topics"])
+    # df_coherence["Coherence"] = coherence.values()
+
+    if compute_coherence:
+        coherence_table = self.assemble_coherence(
+            models_dict=models, words_per_topic=words_per_topic
+        )
+    else:
+        coherence_table = None
+
+    coherence_map = {k: v.item() for k, v in coherence.items()}
+
+    outputs.set_values(
+        topic_models=model_tables,
+        coherence_table=coherence_table,
+        coherence_map=coherence_map,
+    )
+</td>
+    <td>The source code of the process method of the module.</td>
+  </tr>
+</table><h3 id="kiara_info.module_types.tokenize.string"><code>tokenize.string</code><a class="headerlink" href="#kiara_info.module_types.tokenize.string" title="Permanent link">&para;</a></h3>
+<table>
+  <tr>
+    <td>type_name</td>
+    <td>tokenize.string</td>
+    <td>The registered name for this item type.</td>
+  </tr>
+  <tr>
+    <td>documentation</td>
+    <td><p>Tokenize a string.</p>
+</td>
+    <td>Documentation for the item.</td>
+  </tr>
+  <tr>
+    <td>authors</td>
+    <td><ul>
+
+    <li>Markus Binsteiner ( <a href="mailto:markus@frkl.io">markus@frkl.io</a> )</li>
+
+</ul></td>
+    <td>Information about authorship for the item.</td>
+  </tr>
+  <tr>
+    <td>context</td>
+    <td><table xmlns="http://www.w3.org/1999/html">
+    <tbody>
+    <tr>
+    <td>tags</td>
+    <td>language_processing</td>
+    </tr>
+    <tr>
+        <td>labels</td>
+        <td>
+            <ul>
+        
+        <li>package: kiara_plugin.language_processing</li>
+        
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>references</td>
+        <td>
+        <ul>
+            
+            <li><a href="https://github.com/DHARPA-Project/kiara_plugin.language_processing">source_repo</a>: The module package git repository.</li>
+            
+            <li><a href="https://DHARPA-Project.github.io/kiara_plugin.language_processing/">documentation</a>: The url for the module package documentation.</li>
+            
+        </ul>
+        </td>
+    </tr>
+    </tbody>
+</table></td>
+    <td>Generic properties of this item (description, tags, labels, references, ...).</td>
+  </tr>
+  <tr>
+    <td>python_class</td>
+    <td><table>
+  <tr>
+    <td>python_class_name</td>
+    <td>TokenizeTextModule</td>
+    <td>The name of the Python class.</td>
+  </tr>
+  <tr>
+    <td>python_module_name</td>
+    <td>kiara_plugin.language_processing.modules.tokens</td>
+    <td>The name of the Python module this class lives in.</td>
+  </tr>
+  <tr>
+    <td>full_name</td>
+    <td>kiara_plugin.language_processing.modules.tokens.TokenizeTextModule</td>
+    <td>The full class namespace.</td>
+  </tr>
+</table></td>
+    <td>The python class that implements this module type.</td>
+  </tr>
+  <tr>
+    <td>process_src</td>
+    <td>def process(self, inputs: ValueMap, outputs: ValueMap) -> None:
+
+    import nltk
+
+    # TODO: module-independent caching?
+    # language = inputs.get_value_data("language")
+    #
+    text = inputs.get_value_data("text")
+    tokenized = nltk.word_tokenize(text)
+
+    result = tokenized
+    if self.get_config_value("min_token_length") > 0:
+        result = (
+            x
+            for x in tokenized
+            if len(x) >= self.get_config_value("min_token_length")
+        )
+
+    if self.get_config_value("filter_non_alpha"):
+        result = (x for x in result if x.isalpha())
+
+    if self.get_config_value("to_lowercase"):
+        result = (x.lower() for x in result)
+
+    outputs.set_value("token_list", list(result))
+</td>
+    <td>The source code of the process method of the module.</td>
+  </tr>
+</table><h3 id="kiara_info.module_types.tokenize.texts_array"><code>tokenize.texts_array</code><a class="headerlink" href="#kiara_info.module_types.tokenize.texts_array" title="Permanent link">&para;</a></h3>
+<table>
+  <tr>
+    <td>type_name</td>
+    <td>tokenize.texts_array</td>
+    <td>The registered name for this item type.</td>
+  </tr>
+  <tr>
+    <td>documentation</td>
+    <td><p>Split sentences into words or words into characters.</p>
+<p>In other words, this operation establishes the word boundaries (i.e., tokens) a very helpful way of finding patterns. It is also the typical step prior to stemming and lemmatization</p>
+</td>
+    <td>Documentation for the item.</td>
+  </tr>
+  <tr>
+    <td>authors</td>
+    <td><ul>
+
+    <li>Markus Binsteiner ( <a href="mailto:markus@frkl.io">markus@frkl.io</a> )</li>
+
+</ul></td>
+    <td>Information about authorship for the item.</td>
+  </tr>
+  <tr>
+    <td>context</td>
+    <td><table xmlns="http://www.w3.org/1999/html">
+    <tbody>
+    <tr>
+    <td>tags</td>
+    <td>language_processing,tokenize,tokens</td>
+    </tr>
+    <tr>
+        <td>labels</td>
+        <td>
+            <ul>
+        
+        <li>package: kiara_plugin.language_processing</li>
+        
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>references</td>
+        <td>
+        <ul>
+            
+            <li><a href="https://github.com/DHARPA-Project/kiara_plugin.language_processing">source_repo</a>: The module package git repository.</li>
+            
+            <li><a href="https://DHARPA-Project.github.io/kiara_plugin.language_processing/">documentation</a>: The url for the module package documentation.</li>
+            
+        </ul>
+        </td>
+    </tr>
+    </tbody>
+</table></td>
+    <td>Generic properties of this item (description, tags, labels, references, ...).</td>
+  </tr>
+  <tr>
+    <td>python_class</td>
+    <td><table>
+  <tr>
+    <td>python_class_name</td>
+    <td>TokenizeTextArrayeModule</td>
+    <td>The name of the Python class.</td>
+  </tr>
+  <tr>
+    <td>python_module_name</td>
+    <td>kiara_plugin.language_processing.modules.tokens</td>
+    <td>The name of the Python module this class lives in.</td>
+  </tr>
+  <tr>
+    <td>full_name</td>
+    <td>kiara_plugin.language_processing.modules.tokens.TokenizeTextArrayeModule</td>
+    <td>The full class namespace.</td>
+  </tr>
+</table></td>
+    <td>The python class that implements this module type.</td>
+  </tr>
+  <tr>
+    <td>process_src</td>
+    <td>def process(self, inputs: ValueMap, outputs: ValueMap):
+
+    pass
+
+    import nltk
+    import polars as pl
+    import pyarrow as pa
+
+    array: KiaraArray = inputs.get_value_data("texts_array")
+    # tokenize_by_word: bool = inputs.get_value_data("tokenize_by_word")
+
+    column: pa.ChunkedArray = array.arrow_array
+
+    # warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
+
+    def word_tokenize(word):
+        result = nltk.word_tokenize(word)
+        return result
+
+    series = pl.Series(name="tokens", values=column)
+    result = series.apply(word_tokenize)
+
+    result_array = result.to_arrow()
+
+    # TODO: remove this cast once the array data type can handle non-chunked arrays
+    chunked = pa.chunked_array(result_array)
+    outputs.set_values(tokens_array=chunked)
+</td>
+    <td>The source code of the process method of the module.</td>
+  </tr>
+</table><h3 id="kiara_info.module_types.create.stopwords_list"><code>create.stopwords_list</code><a class="headerlink" href="#kiara_info.module_types.create.stopwords_list" title="Permanent link">&para;</a></h3>
+<table>
+  <tr>
+    <td>type_name</td>
+    <td>create.stopwords_list</td>
+    <td>The registered name for this item type.</td>
+  </tr>
+  <tr>
+    <td>documentation</td>
+    <td><p>Create a list of stopwords from one or multiple sources.</p>
+<p>This will download nltk stopwords if necessary, and merge all input lists into a single, sorted list without duplicates.</p>
+</td>
+    <td>Documentation for the item.</td>
+  </tr>
+  <tr>
+    <td>authors</td>
+    <td><ul>
+
+    <li>Markus Binsteiner ( <a href="mailto:markus@frkl.io">markus@frkl.io</a> )</li>
+
+</ul></td>
+    <td>Information about authorship for the item.</td>
+  </tr>
+  <tr>
+    <td>context</td>
+    <td><table xmlns="http://www.w3.org/1999/html">
+    <tbody>
+    <tr>
+    <td>tags</td>
+    <td>language_processing</td>
+    </tr>
+    <tr>
+        <td>labels</td>
+        <td>
+            <ul>
+        
+        <li>package: kiara_plugin.language_processing</li>
+        
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>references</td>
+        <td>
+        <ul>
+            
+            <li><a href="https://github.com/DHARPA-Project/kiara_plugin.language_processing">source_repo</a>: The module package git repository.</li>
+            
+            <li><a href="https://DHARPA-Project.github.io/kiara_plugin.language_processing/">documentation</a>: The url for the module package documentation.</li>
+            
+        </ul>
+        </td>
+    </tr>
+    </tbody>
+</table></td>
+    <td>Generic properties of this item (description, tags, labels, references, ...).</td>
+  </tr>
+  <tr>
+    <td>python_class</td>
+    <td><table>
+  <tr>
+    <td>python_class_name</td>
+    <td>AssembleStopwordsModule</td>
+    <td>The name of the Python class.</td>
+  </tr>
+  <tr>
+    <td>python_module_name</td>
+    <td>kiara_plugin.language_processing.modules.tokens</td>
+    <td>The name of the Python module this class lives in.</td>
+  </tr>
+  <tr>
+    <td>full_name</td>
+    <td>kiara_plugin.language_processing.modules.tokens.AssembleStopwordsModule</td>
+    <td>The full class namespace.</td>
+  </tr>
+</table></td>
+    <td>The python class that implements this module type.</td>
+  </tr>
+  <tr>
+    <td>process_src</td>
+    <td>def process(self, inputs: ValueMap, outputs: ValueMap):
+
+    stopwords = set()
+    _languages = inputs.get_value_obj("languages")
+
+    if _languages.is_set:
+        all_stopwords = get_stopwords()
+        languages: ListModel = _languages.data
+
+        for language in languages.list_data:
+
+            if language not in all_stopwords.fileids():
+                raise KiaraProcessingException(
+                    f"Invalid language: {language}. Available: {', '.join(all_stopwords.fileids())}."
+                )
+            stopwords.update(get_stopwords().words(language))
+
+    _stopword_lists = inputs.get_value_obj("stopword_lists")
+    if _stopword_lists.is_set:
+        stopword_lists: ListModel = _stopword_lists.data
+        for stopword_list in stopword_lists.list_data:
+            if isinstance(stopword_list, str):
+                stopwords.add(stopword_list)
+            else:
+                stopwords.update(stopword_list)
+
+    outputs.set_value("stopwords_list", sorted(stopwords))
+</td>
+    <td>The source code of the process method of the module.</td>
+  </tr>
+</table><h3 id="kiara_info.module_types.remove_stopwords.from.tokens_array"><code>remove_stopwords.from.tokens_array</code><a class="headerlink" href="#kiara_info.module_types.remove_stopwords.from.tokens_array" title="Permanent link">&para;</a></h3>
+<table>
+  <tr>
+    <td>type_name</td>
+    <td>remove_stopwords.from.tokens_array</td>
+    <td>The registered name for this item type.</td>
+  </tr>
+  <tr>
+    <td>documentation</td>
+    <td><p>Remove stopwords from an array of token-lists.</p>
+</td>
+    <td>Documentation for the item.</td>
+  </tr>
+  <tr>
+    <td>authors</td>
+    <td><ul>
+
+    <li>Markus Binsteiner ( <a href="mailto:markus@frkl.io">markus@frkl.io</a> )</li>
+
+</ul></td>
+    <td>Information about authorship for the item.</td>
+  </tr>
+  <tr>
+    <td>context</td>
+    <td><table xmlns="http://www.w3.org/1999/html">
+    <tbody>
+    <tr>
+    <td>tags</td>
+    <td>language_processing</td>
+    </tr>
+    <tr>
+        <td>labels</td>
+        <td>
+            <ul>
+        
+        <li>package: kiara_plugin.language_processing</li>
+        
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>references</td>
+        <td>
+        <ul>
+            
+            <li><a href="https://github.com/DHARPA-Project/kiara_plugin.language_processing">source_repo</a>: The module package git repository.</li>
+            
+            <li><a href="https://DHARPA-Project.github.io/kiara_plugin.language_processing/">documentation</a>: The url for the module package documentation.</li>
+            
+        </ul>
+        </td>
+    </tr>
+    </tbody>
+</table></td>
+    <td>Generic properties of this item (description, tags, labels, references, ...).</td>
+  </tr>
+  <tr>
+    <td>python_class</td>
+    <td><table>
+  <tr>
+    <td>python_class_name</td>
+    <td>RemoveStopwordsModule</td>
+    <td>The name of the Python class.</td>
+  </tr>
+  <tr>
+    <td>python_module_name</td>
+    <td>kiara_plugin.language_processing.modules.tokens</td>
+    <td>The name of the Python module this class lives in.</td>
+  </tr>
+  <tr>
+    <td>full_name</td>
+    <td>kiara_plugin.language_processing.modules.tokens.RemoveStopwordsModule</td>
+    <td>The full class namespace.</td>
+  </tr>
+</table></td>
+    <td>The python class that implements this module type.</td>
+  </tr>
+  <tr>
+    <td>process_src</td>
+    <td>def process(self, inputs: ValueMap, outputs: ValueMap) -> None:
+
+    import pyarrow as pa
+
+    custom_stopwords = inputs.get_value_data("additional_stopwords")
+
+    if inputs.get_value_obj("languages").is_set:
+        _languages: ListModel = inputs.get_value_data("languages")
+        languages = _languages.list_data
+    else:
+        languages = []
+
+    stopwords = set()
+    if languages:
+        for language in languages:
+            if language not in get_stopwords().fileids():
+                raise KiaraProcessingException(
+                    f"Invalid language: {language}. Available: {', '.join(get_stopwords().fileids())}."
+                )
+            stopwords.update(get_stopwords().words(language))
+
+    if custom_stopwords:
+        stopwords.update(custom_stopwords)
+
+    orig_array = inputs.get_value_obj("tokens_array")  # type: ignore
+
+    if not stopwords:
+        outputs.set_value("tokens_array", orig_array)
+        return
+
+    # if hasattr(orig_array, "to_pylist"):
+    #     token_lists = orig_array.to_pylist()
+
+    tokens_array = orig_array.data.arrow_array
+
+    # TODO: use vaex for this
+    result = []
+    for token_list in tokens_array:
+
+        cleaned_list = [x for x in token_list.as_py() if x.lower() not in stopwords]
+        result.append(cleaned_list)
+
+    outputs.set_value("tokens_array", pa.chunked_array(pa.array(result)))
+</td>
+    <td>The source code of the process method of the module.</td>
+  </tr>
+</table><h3 id="kiara_info.module_types.preprocess.tokens_array"><code>preprocess.tokens_array</code><a class="headerlink" href="#kiara_info.module_types.preprocess.tokens_array" title="Permanent link">&para;</a></h3>
+<table>
+  <tr>
+    <td>type_name</td>
+    <td>preprocess.tokens_array</td>
+    <td>The registered name for this item type.</td>
+  </tr>
+  <tr>
+    <td>documentation</td>
+    <td><p>Preprocess lists of tokens, incl. lowercasing, remove special characers, etc.</p>
+<p>Lowercasing: Lowercase the words. This operation is a double-edged sword. It can be effective at yielding potentially better results in the case of relatively small datasets or datatsets with a high percentage of OCR mistakes. For instance, if lowercasing is not performed, the algorithm will treat USA, Usa, usa, UsA, uSA, etc. as distinct tokens, even though they may all refer to the same entity. On the other hand, if the dataset does not contain such OCR mistakes, then it may become difficult to distinguish between homonyms and make interpreting the topics much harder.</p>
+<p>Removing stopwords and words with less than three characters: Remove low information words. These are typically words such as articles, pronouns, prepositions, conjunctions, etc. which are not semantically salient. There are numerous stopword lists available for many, though not all, languages which can be easily adapted to the individual researcher's needs. Removing words with less than three characters may additionally remove many OCR mistakes. Both these operations have the dual advantage of yielding more reliable results while reducing the size of the dataset, thus in turn reducing the required processing power. This step can therefore hardly be considered optional in TM.</p>
+<p>Noise removal: Remove elements such as punctuation marks, special characters, numbers, html formatting, etc. This operation is again concerned with removing elements that may not be relevant to the text analysis and in fact interfere with it. Depending on the dataset and research question, this operation can become essential.</p>
+</td>
+    <td>Documentation for the item.</td>
+  </tr>
+  <tr>
+    <td>authors</td>
+    <td><ul>
+
+    <li>Markus Binsteiner ( <a href="mailto:markus@frkl.io">markus@frkl.io</a> )</li>
+
+</ul></td>
+    <td>Information about authorship for the item.</td>
+  </tr>
+  <tr>
+    <td>context</td>
+    <td><table xmlns="http://www.w3.org/1999/html">
+    <tbody>
+    <tr>
+    <td>tags</td>
+    <td>language_processing,tokens,preprocess</td>
+    </tr>
+    <tr>
+        <td>labels</td>
+        <td>
+            <ul>
+        
+        <li>package: kiara_plugin.language_processing</li>
+        
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>references</td>
+        <td>
+        <ul>
+            
+            <li><a href="https://github.com/DHARPA-Project/kiara_plugin.language_processing">source_repo</a>: The module package git repository.</li>
+            
+            <li><a href="https://DHARPA-Project.github.io/kiara_plugin.language_processing/">documentation</a>: The url for the module package documentation.</li>
+            
+        </ul>
+        </td>
+    </tr>
+    </tbody>
+</table></td>
+    <td>Generic properties of this item (description, tags, labels, references, ...).</td>
+  </tr>
+  <tr>
+    <td>python_class</td>
+    <td><table>
+  <tr>
+    <td>python_class_name</td>
+    <td>PreprocessModule</td>
+    <td>The name of the Python class.</td>
+  </tr>
+  <tr>
+    <td>python_module_name</td>
+    <td>kiara_plugin.language_processing.modules.tokens</td>
+    <td>The name of the Python module this class lives in.</td>
+  </tr>
+  <tr>
+    <td>full_name</td>
+    <td>kiara_plugin.language_processing.modules.tokens.PreprocessModule</td>
+    <td>The full class namespace.</td>
+  </tr>
+</table></td>
+    <td>The python class that implements this module type.</td>
+  </tr>
+  <tr>
+    <td>process_src</td>
+    <td>def process(self, inputs: ValueMap, outputs: ValueMap):
+
+    import polars as pl
+    import pyarrow as pa
+
+    tokens_array: KiaraArray = inputs.get_value_data("tokens_array")
+    lowercase: bool = inputs.get_value_data("to_lowercase")
+    remove_alphanumeric: bool = inputs.get_value_data("remove_alphanumeric")
+    remove_non_alpha: bool = inputs.get_value_data("remove_non_alpha")
+    remove_all_numeric: bool = inputs.get_value_data("remove_all_numeric")
+    remove_short_tokens: int = inputs.get_value_data("remove_short_tokens")
+
+    if remove_short_tokens is None:
+        remove_short_tokens = -1
+
+    _remove_stopwords = inputs.get_value_obj("remove_stopwords")
+    if _remove_stopwords.is_set:
+        stopword_list: Optional[Iterable[str]] = _remove_stopwords.data.list_data
+    else:
+        stopword_list = None
+
+    # it's better to have one method every token goes through, then do every test seperately for the token list
+    # because that way each token only needs to be touched once (which is more effective)
+    def check_token(token: str) -> Optional[str]:
+
+        # remove short tokens first, since we can save ourselves all the other checks (which are more expensive)
+        if remove_short_tokens > 0:
+            if len(token) <= remove_short_tokens:
+                return None
+
+        _token: str = token
+        if lowercase:
+            _token = _token.lower()
+
+        if remove_non_alpha:
+            match = _token if _token.isalpha() else None
+            if match is None:
+                return None
+
+        # if remove_non_alpha was set, we don't need to worry about tokens that include numbers, since they are already filtered out
+        if remove_alphanumeric and not remove_non_alpha:
+            match = _token if _token.isalnum() else None
+            if match is None:
+                return None
+
+        # all-number tokens are already filtered out if the remove_non_alpha methods above ran
+        if remove_all_numeric and not remove_non_alpha:
+            match = None if _token.isdigit() else _token
+            if match is None:
+                return None
+
+        if stopword_list and _token and _token.lower() in stopword_list:
+            return None
+
+        return _token
+
+    series = pl.Series(name="tokens", values=tokens_array.arrow_array)
+    result = series.apply(
+        lambda token_list: [
+            x for x in (check_token(token) for token in token_list) if x is not None
+        ]
+    )
+    result_array = result.to_arrow()
+
+    # TODO: remove this cast once the array data type can handle non-chunked arrays
+    chunked = pa.chunked_array(result_array)
+    outputs.set_values(tokens_array=chunked)
+</td>
+    <td>The source code of the process method of the module.</td>
+  </tr>
+</table>
+
+
+
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../.." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Home
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../operations/" class="md-footer__link md-footer__link--next" aria-label="Next: operations" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              operations
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.9c69f0bc.min.js"></script>
+      
+    
+  </body>
+</html>
