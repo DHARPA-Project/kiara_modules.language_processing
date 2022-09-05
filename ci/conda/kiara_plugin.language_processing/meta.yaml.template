@@ -24,9 +24,7 @@ requirements:
   run:
     - python
     - gensim>=4.2.0
-    - kiara>=0.4.15
-    - kiara_plugin.core_types>=0.4.10
-    - kiara_plugin.tabular>=0.4.10
+    - kiara_plugin.tabular>=0.4.13
     - nltk>=3.7
 about:
   home: https://github.com/DHARPA-Project/kiara_plugin.language_processing
