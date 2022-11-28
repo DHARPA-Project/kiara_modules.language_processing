@@ -16,3 +16,4 @@ test:
     - examples
   commands:
     - kiara module list
+    - kiara run examples/pipelines/topic_modeling.yaml
