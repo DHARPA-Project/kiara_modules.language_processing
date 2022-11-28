@@ -53,7 +53,7 @@ class LDAModule(KiaraModule):
         self,
     ) -> ValueSetSchema:
 
-        outputs = {
+        outputs: Mapping[str, Mapping[str, Any]] = {
             "topic_models": {
                 "type": "dict",
                 "doc": "A dictionary with one coherence model table for each number of topics.",
