@@ -31,7 +31,7 @@ classifiers = [
 ]
 dependencies = [
     "kiara>=0.4.22",
-    "kiara_plugin.tabular>=0.4.12",
+    "kiara_plugin.tabular>=0.4.17",
     "gensim>=4.2.0",
     "nltk>=3.7"
 ]
