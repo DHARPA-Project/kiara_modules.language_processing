@@ -3,6 +3,7 @@ import logging
 import re
 from typing import Any, Dict, Mapping
 
+from kiara.exceptions import KiaraProcessingException
 from kiara.models.values.value import ValueMap
 from kiara.modules import KiaraModule, ValueSetSchema
 from kiara_plugin.tabular.models.array import KiaraArray
@@ -34,6 +35,7 @@ class LDAModule(KiaraModule):
             "num_topics_max": {
                 "type": "integer",
                 "doc": "The max number of topics.",
+                "default": 7,
                 "optional": True,
             },
             "compute_coherence": {
@@ -137,8 +139,13 @@ class LDAModule(KiaraModule):
 
         num_topics_min = inputs.get_value_data("num_topics_min")
         num_topics_max = inputs.get_value_data("num_topics_max")
-        if num_topics_max is None:
+        if not num_topics_max:
             num_topics_max = num_topics_min
+
+        if num_topics_max < num_topics_min:
+            raise KiaraProcessingException(
+                "The max number of topics must be larger or equal to the min number of topics."
+            )
 
         compute_coherence = inputs.get_value_data("compute_coherence")
         id2word = corpora.Dictionary(tokens)

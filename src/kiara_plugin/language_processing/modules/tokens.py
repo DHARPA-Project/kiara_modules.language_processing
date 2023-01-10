@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import io
-from typing import Any, Dict, Iterable, Optional
+from typing import Any, Dict, Iterable, Union
 
 import structlog
 from kiara.exceptions import KiaraProcessingException
@@ -358,8 +358,8 @@ class PreprocessModule(KiaraModule):
             },
             "remove_short_tokens": {
                 "type": "integer",
-                "doc": "Remove tokens shorter than a certain length. If value is <= 0, no filtering will be done.",
-                "default": False,
+                "doc": "Remove tokens shorter or equal to this value. If value is <= 0, no filtering will be done.",
+                "default": 0,
             },
             "remove_stopwords": {
                 "type": "list",
@@ -396,15 +396,16 @@ class PreprocessModule(KiaraModule):
 
         _remove_stopwords = inputs.get_value_obj("remove_stopwords")
         if _remove_stopwords.is_set:
-            stopword_list: Optional[Iterable[str]] = _remove_stopwords.data.list_data
+            stopword_list: Union[Iterable[str], None] = _remove_stopwords.data.list_data
         else:
             stopword_list = None
 
         # it's better to have one method every token goes through, then do every test seperately for the token list
         # because that way each token only needs to be touched once (which is more effective)
-        def check_token(token: str) -> Optional[str]:
+        def check_token(token: str) -> Union[str, None]:
 
             # remove short tokens first, since we can save ourselves all the other checks (which are more expensive)
+            assert isinstance(remove_short_tokens, int)
             if remove_short_tokens > 0:
                 if len(token) <= remove_short_tokens:
                     return None
