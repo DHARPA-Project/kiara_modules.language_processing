@@ -178,9 +178,9 @@ class AssembleStopwordsModule(KiaraModule):
                 "doc": "A list of languages, will be used to retrieve language-specific stopword from nltk.",
                 "optional": True,
             },
-            "stopword_lists": {
+            "stopword_list": {
                 "type": "list",
-                "doc": "A list of lists of stopwords.",
+                "doc": "A list of additional, custom stopwords.",
                 "optional": True,
             },
         }
@@ -213,7 +213,7 @@ class AssembleStopwordsModule(KiaraModule):
                     )
                 stopwords.update(get_stopwords().words(language))
 
-        _stopword_lists = inputs.get_value_obj("stopword_lists")
+        _stopword_lists = inputs.get_value_obj("stopword_list")
         if _stopword_lists.is_set:
             stopword_lists: ListModel = _stopword_lists.data
             for stopword_list in stopword_lists.list_data:
