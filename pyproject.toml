@@ -53,6 +53,22 @@ dev_all = [
     "kiara[dev_all]"
 ]
 
+[project.entry-points."kiara.plugin"]
+language_processing = "kiara_plugin.language_processing"
+
+[project.entry-points."kiara.data_types"]
+language_processing = "kiara_plugin.language_processing:find_data_types"
+
+[project.entry-points."kiara.model_classes"]
+language_processing = "kiara_plugin.language_processing:find_model_classes"
+
+[project.entry-points."kiara.modules"]
+language_processing = "kiara_plugin.language_processing:find_modules"
+
+[project.entry-points."kiara.pipelines"]
+language_processing = "kiara_plugin.language_processing:find_pipelines"
+
+
 [project.urls]
 homepage = "https://github.com/DHARPA-Project/kiara_plugin.language_processing"
 documentation = "https://DHARPA-Project.github.io/kiara_plugin.language_processing"
