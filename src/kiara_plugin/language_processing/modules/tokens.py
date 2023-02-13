@@ -154,8 +154,6 @@ class TokenizeTextArrayeModule(KiaraModule):
 
     def process(self, inputs: ValueMap, outputs: ValueMap):
 
-        pass
-
         import nltk
         import polars as pl
         import pyarrow as pa
@@ -163,19 +161,26 @@ class TokenizeTextArrayeModule(KiaraModule):
         get_stopwords()
 
         array: KiaraArray = inputs.get_value_data("texts_array")
-        # tokenize_by_word: bool = inputs.get_value_data("tokenize_by_word")
 
-        column: pa.ChunkedArray = array.arrow_array
+        # for text in array.arrow_array:
+        #     print("----")
+        #     print(len(str(text)))
+        tokenize_by_word: bool = inputs.get_value_data("tokenize_by_word")
+
+        if not tokenize_by_word:
+            raise KiaraProcessingException(
+                "Non-word tokenization is not yet implemented."
+            )
+
+        column: pa.ChunkedArray = array.arrow_array  # type: ignore
 
         # warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
         def word_tokenize(word):
-            result = nltk.word_tokenize(word)
-            return result
+            return nltk.word_tokenize(word)
 
         series = pl.Series(name="tokens", values=column)
-        # result = series.apply(word_tokenize)
-        result_array = series.to_arrow()
-        # result_array = result.to_arrow()
+        result = series.apply(word_tokenize)
+        result_array = result.to_arrow()
 
         # TODO: remove this cast once the array data type can handle non-chunked arrays
         chunked = pa.chunked_array(result_array)
@@ -428,6 +433,7 @@ class PreprocessModule(KiaraModule):
 
             # remove short tokens first, since we can save ourselves all the other checks (which are more expensive)
             assert isinstance(remove_short_tokens, int)
+
             if remove_short_tokens > 0:
                 if len(token) <= remove_short_tokens:
                     return None
@@ -459,6 +465,7 @@ class PreprocessModule(KiaraModule):
             return _token
 
         series = pl.Series(name="tokens", values=tokens_array.arrow_array)
+
         result = series.apply(
             lambda token_list: [
                 x for x in (check_token(token) for token in token_list) if x is not None
