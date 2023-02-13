@@ -2355,7 +2355,7 @@ In other words, this operation establishes the word boundaries (i.e., tokens) a 
                 <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of languages, will be used to retrieve language-specific stopword from nltk.&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
             <span class="p">},</span>
-            <span class="s2">&quot;stopword_list&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;stopwords&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of additional, custom stopwords.&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
@@ -2390,7 +2390,7 @@ In other words, this operation establishes the word boundaries (i.e., tokens) a 
                     <span class="p">)</span>
                 <span class="n">stopwords</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">get_stopwords</span><span class="p">()</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="n">language</span><span class="p">))</span>
 
-        <span class="n">_stopword_lists</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_obj</span><span class="p">(</span><span class="s2">&quot;stopword_list&quot;</span><span class="p">)</span>
+        <span class="n">_stopword_lists</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_obj</span><span class="p">(</span><span class="s2">&quot;stopwords&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">_stopword_lists</span><span class="o">.</span><span class="n">is_set</span><span class="p">:</span>
             <span class="n">stopword_lists</span><span class="p">:</span> <span class="n">ListModel</span> <span class="o">=</span> <span class="n">_stopword_lists</span><span class="o">.</span><span class="n">data</span>
             <span class="k">for</span> <span class="n">stopword_list</span> <span class="ow">in</span> <span class="n">stopword_lists</span><span class="o">.</span><span class="n">list_data</span><span class="p">:</span>
@@ -2454,7 +2454,7 @@ In other words, this operation establishes the word boundaries (i.e., tokens) a 
             <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of languages, will be used to retrieve language-specific stopword from nltk.&quot;</span><span class="p">,</span>
             <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
         <span class="p">},</span>
-        <span class="s2">&quot;stopword_list&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;stopwords&quot;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
             <span class="s2">&quot;doc&quot;</span><span class="p">:</span> <span class="s2">&quot;A list of additional, custom stopwords.&quot;</span><span class="p">,</span>
             <span class="s2">&quot;optional&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
@@ -2562,7 +2562,7 @@ In other words, this operation establishes the word boundaries (i.e., tokens) a 
                 <span class="p">)</span>
             <span class="n">stopwords</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">get_stopwords</span><span class="p">()</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="n">language</span><span class="p">))</span>
 
-    <span class="n">_stopword_lists</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_obj</span><span class="p">(</span><span class="s2">&quot;stopword_list&quot;</span><span class="p">)</span>
+    <span class="n">_stopword_lists</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_value_obj</span><span class="p">(</span><span class="s2">&quot;stopwords&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">_stopword_lists</span><span class="o">.</span><span class="n">is_set</span><span class="p">:</span>
         <span class="n">stopword_lists</span><span class="p">:</span> <span class="n">ListModel</span> <span class="o">=</span> <span class="n">_stopword_lists</span><span class="o">.</span><span class="n">data</span>
         <span class="k">for</span> <span class="n">stopword_list</span> <span class="ow">in</span> <span class="n">stopword_lists</span><span class="o">.</span><span class="n">list_data</span><span class="p">:</span>
