@@ -75,5 +75,5 @@ defaults:
   date_parse_max: 21
   text_corpus_folder_path: "${pipeline_dir}/../data/text_corpus/data"
   languages: ["italian"]
-  stopword_list: []
+  stopwords: []
   num_topics_max: 7
