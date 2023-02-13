@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import io
-from typing import Any, Dict, Iterable, Union
+from typing import Iterable, Union
 
 import structlog
 from kiara.exceptions import KiaraProcessingException
@@ -11,21 +11,40 @@ from kiara_plugin.core_types.models import ListModel
 from kiara_plugin.tabular.models.array import KiaraArray
 from pydantic import Field
 
+from kiara_plugin.language_processing.defaults import NLTK_DOWNLOAD_DIR
+
 log = structlog.getLogger()
+
+
+def init_nltk():
+
+    import nltk
+
+    nltk.data.path = [NLTK_DOWNLOAD_DIR]
+
+
+_nltk_stopwords = None
 
 
 def get_stopwords():
 
+    global _nltk_stopwords
+    if _nltk_stopwords is not None:
+        return _nltk_stopwords
+
     # TODO: make that smarter
     import nltk
 
+    init_nltk()
+
     output = io.StringIO()
-    nltk.download("punkt", print_error_to=output)
-    nltk.download("stopwords", print_error_to=output)
+    nltk.download("punkt", print_error_to=output, download_dir=NLTK_DOWNLOAD_DIR)
+    nltk.download("stopwords", print_error_to=output, download_dir=NLTK_DOWNLOAD_DIR)
 
     log.debug("external.message", source="nltk", msg=output.getvalue())
     from nltk.corpus import stopwords
 
+    _nltk_stopwords = stopwords
     return stopwords
 
 
@@ -69,6 +88,8 @@ class TokenizeTextModule(KiaraModule):
     def process(self, inputs: ValueMap, outputs: ValueMap) -> None:
 
         import nltk
+
+        get_stopwords()
 
         # TODO: module-independent caching?
         # language = inputs.get_value_data("language")
@@ -139,21 +160,22 @@ class TokenizeTextArrayeModule(KiaraModule):
         import polars as pl
         import pyarrow as pa
 
+        get_stopwords()
+
         array: KiaraArray = inputs.get_value_data("texts_array")
         # tokenize_by_word: bool = inputs.get_value_data("tokenize_by_word")
 
         column: pa.ChunkedArray = array.arrow_array
 
         # warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
-
         def word_tokenize(word):
             result = nltk.word_tokenize(word)
             return result
 
         series = pl.Series(name="tokens", values=column)
-        result = series.apply(word_tokenize)
-
-        result_array = result.to_arrow()
+        # result = series.apply(word_tokenize)
+        result_array = series.to_arrow()
+        # result_array = result.to_arrow()
 
         # TODO: remove this cast once the array data type can handle non-chunked arrays
         chunked = pa.chunked_array(result_array)
@@ -211,7 +233,7 @@ class AssembleStopwordsModule(KiaraModule):
                     raise KiaraProcessingException(
                         f"Invalid language: {language}. Available: {', '.join(all_stopwords.fileids())}."
                     )
-                stopwords.update(get_stopwords().words(language))
+                stopwords.update(all_stopwords.words(language))
 
         _stopword_lists = inputs.get_value_obj("stopwords")
         if _stopword_lists.is_set:
@@ -225,90 +247,90 @@ class AssembleStopwordsModule(KiaraModule):
         outputs.set_value("stopwords_list", sorted(stopwords))
 
 
-class RemoveStopwordsModule(KiaraModule):
-    """Remove stopwords from an array of token-lists."""
-
-    _module_type_name = "remove_stopwords.from.tokens_array"
-
-    def create_inputs_schema(
-        self,
-    ) -> ValueSetSchema:
-
-        # TODO: do something smart and check whether languages are already downloaded, if so, display selection in doc
-        inputs: Dict[str, Dict[str, Any]] = {
-            "tokens_array": {
-                "type": "array",
-                "doc": "An array of string lists (a list of tokens).",
-            },
-            "languages": {
-                "type": "list",
-                # "doc": f"A list of language names to use default stopword lists for. Available: {', '.join(get_stopwords().fileids())}.",
-                "doc": "A list of language names to use default stopword lists for.",
-                "optional": True,
-            },
-            "additional_stopwords": {
-                "type": "list",
-                "doc": "A list of additional, custom stopwords.",
-                "optional": True,
-            },
-        }
-        return inputs
-
-    def create_outputs_schema(
-        self,
-    ) -> ValueSetSchema:
-
-        outputs = {
-            "tokens_array": {
-                "type": "array",
-                "doc": "An array of string lists, with the stopwords removed.",
-            }
-        }
-        return outputs
-
-    def process(self, inputs: ValueMap, outputs: ValueMap) -> None:
-
-        import pyarrow as pa
-
-        custom_stopwords = inputs.get_value_data("additional_stopwords")
-
-        if inputs.get_value_obj("languages").is_set:
-            _languages: ListModel = inputs.get_value_data("languages")
-            languages = _languages.list_data
-        else:
-            languages = []
-
-        stopwords = set()
-        if languages:
-            for language in languages:
-                if language not in get_stopwords().fileids():
-                    raise KiaraProcessingException(
-                        f"Invalid language: {language}. Available: {', '.join(get_stopwords().fileids())}."
-                    )
-                stopwords.update(get_stopwords().words(language))
-
-        if custom_stopwords:
-            stopwords.update(custom_stopwords)
-
-        orig_array = inputs.get_value_obj("tokens_array")  # type: ignore
-
-        if not stopwords:
-            outputs.set_value("tokens_array", orig_array)
-            return
-
-        # if hasattr(orig_array, "to_pylist"):
-        #     token_lists = orig_array.to_pylist()
-
-        tokens_array = orig_array.data.arrow_array
-
-        # TODO: use vaex for this
-        result = []
-        for token_list in tokens_array:
-
-            cleaned_list = [x for x in token_list.as_py() if x.lower() not in stopwords]
-            result.append(cleaned_list)
-
-        outputs.set_value("tokens_array", pa.chunked_array(pa.array(result)))
+# class RemoveStopwordsModule(KiaraModule):
+#     """Remove stopwords from an array of token-lists."""
+#
+#     _module_type_name = "remove_stopwords.from.tokens_array"
+#
+#     def create_inputs_schema(
+#         self,
+#     ) -> ValueSetSchema:
+#
+#         # TODO: do something smart and check whether languages are already downloaded, if so, display selection in doc
+#         inputs: Dict[str, Dict[str, Any]] = {
+#             "tokens_array": {
+#                 "type": "array",
+#                 "doc": "An array of string lists (a list of tokens).",
+#             },
+#             "languages": {
+#                 "type": "list",
+#                 # "doc": f"A list of language names to use default stopword lists for. Available: {', '.join(get_stopwords().fileids())}.",
+#                 "doc": "A list of language names to use default stopword lists for.",
+#                 "optional": True,
+#             },
+#             "additional_stopwords": {
+#                 "type": "list",
+#                 "doc": "A list of additional, custom stopwords.",
+#                 "optional": True,
+#             },
+#         }
+#         return inputs
+#
+#     def create_outputs_schema(
+#         self,
+#     ) -> ValueSetSchema:
+#
+#         outputs = {
+#             "tokens_array": {
+#                 "type": "array",
+#                 "doc": "An array of string lists, with the stopwords removed.",
+#             }
+#         }
+#         return outputs
+#
+#     def process(self, inputs: ValueMap, outputs: ValueMap) -> None:
+#
+#         import pyarrow as pa
+#
+#         custom_stopwords = inputs.get_value_data("additional_stopwords")
+#
+#         if inputs.get_value_obj("languages").is_set:
+#             _languages: ListModel = inputs.get_value_data("languages")
+#             languages = _languages.list_data
+#         else:
+#             languages = []
+#
+#         stopwords = set()
+#         if languages:
+#             for language in languages:
+#                 if language not in get_stopwords().fileids():
+#                     raise KiaraProcessingException(
+#                         f"Invalid language: {language}. Available: {', '.join(get_stopwords().fileids())}."
+#                     )
+#                 stopwords.update(get_stopwords().words(language))
+#
+#         if custom_stopwords:
+#             stopwords.update(custom_stopwords)
+#
+#         orig_array = inputs.get_value_obj("tokens_array")  # type: ignore
+#
+#         if not stopwords:
+#             outputs.set_value("tokens_array", orig_array)
+#             return
+#
+#         # if hasattr(orig_array, "to_pylist"):
+#         #     token_lists = orig_array.to_pylist()
+#
+#         tokens_array = orig_array.data.arrow_array
+#
+#         # TODO: use vaex for this
+#         result = []
+#         for token_list in tokens_array:
+#
+#             cleaned_list = [x for x in token_list.as_py() if x.lower() not in stopwords]
+#             result.append(cleaned_list)
+#
+#         outputs.set_value("tokens_array", pa.chunked_array(pa.array(result)))
 
 
 class PreprocessModule(KiaraModule):
