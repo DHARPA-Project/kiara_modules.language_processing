@@ -7,7 +7,7 @@ from kiara.exceptions import KiaraProcessingException
 from kiara.models.module import KiaraModuleConfig
 from kiara.models.values.value import ValueMap
 from kiara.modules import KiaraModule, ValueSetSchema
-from kiara_plugin.core_types.models import ListModel
+from kiara_plugin.core_types.models import KiaraList
 from kiara_plugin.tabular.models.array import KiaraArray
 from pydantic import Field
 
@@ -230,7 +230,7 @@ class AssembleStopwordsModule(KiaraModule):
 
         if _languages.is_set:
             all_stopwords = get_stopwords()
-            languages: ListModel = _languages.data
+            languages: KiaraList = _languages.data
 
             for language in languages.list_data:
 
@@ -242,7 +242,7 @@ class AssembleStopwordsModule(KiaraModule):
 
         _stopword_lists = inputs.get_value_obj("stopwords")
         if _stopword_lists.is_set:
-            stopword_lists: ListModel = _stopword_lists.data
+            stopword_lists: KiaraList = _stopword_lists.data
             for stopword_list in stopword_lists.list_data:
                 if isinstance(stopword_list, str):
                     stopwords.add(stopword_list)
