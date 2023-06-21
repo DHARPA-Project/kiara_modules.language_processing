@@ -3,15 +3,15 @@ import io
 from typing import Iterable, Union
 
 import structlog
+from pydantic import Field
+
 from kiara.exceptions import KiaraProcessingException
 from kiara.models.module import KiaraModuleConfig
 from kiara.models.values.value import ValueMap
 from kiara.modules import KiaraModule, ValueSetSchema
 from kiara_plugin.core_types.models import KiaraList
-from kiara_plugin.tabular.models.array import KiaraArray
-from pydantic import Field
-
 from kiara_plugin.language_processing.defaults import NLTK_DOWNLOAD_DIR
+from kiara_plugin.tabular.models.array import KiaraArray
 
 log = structlog.getLogger()
 
@@ -28,7 +28,7 @@ _nltk_stopwords = None
 
 def get_stopwords():
 
-    global _nltk_stopwords
+    global _nltk_stopwords  # noqa
     if _nltk_stopwords is not None:
         return _nltk_stopwords
 
