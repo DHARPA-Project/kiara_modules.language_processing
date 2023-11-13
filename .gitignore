@@ -52,7 +52,6 @@ src/kiara_plugin/language_processing/version.txt
 public
 site
 .dephell_report
-.direnv
 .mypy_cache
 .env
 docs/api-documentation.md
@@ -64,3 +63,6 @@ onefile.spec
 ci/conda/**/build
 ci/conda/kiara_plugin.language_processing/meta.yaml
 .ipynb_checkpoints/
+.pixi
+pixi.lock
+dev.py
