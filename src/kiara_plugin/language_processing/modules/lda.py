@@ -94,36 +94,67 @@ class LDAModule(KiaraModule):
         coherence_value = coherencemodel.get_coherence()
         return coherence_value
 
+    # def assemble_coherence(self, models_dict: Mapping[int, Any], words_per_topic: int):
+    #
+    #     import pandas as pd
+    #     import pyarrow as pa
+    #
+    #     # Create list with topics and topic words for each number of topics
+    #     num_topics_list = []
+    #     topics_list = []
+    #     for (
+    #         num_topics,
+    #         model,
+    #     ) in models_dict.items():
+    #
+    #         num_topics_list.append(num_topics)
+    #         topic_print = model.print_topics(num_words=words_per_topic)
+    #         topics_list.append(topic_print)
+    #
+    #     df_coherence_table = pd.DataFrame(columns=["topic_id", "words", "num_topics"])
+    #
+    #     idx = 0
+    #     for i in range(len(topics_list)):
+    #         for j in range(len(topics_list[i])):
+    #             df_coherence_table.loc[idx] = ""
+    #             df_coherence_table["topic_id"].loc[idx] = j + 1
+    #             df_coherence_table["words"].loc[idx] = ", ".join(
+    #                 re.findall(r'"(\w+)"', topics_list[i][j][1])
+    #             )
+    #             df_coherence_table["num_topics"].loc[idx] = num_topics_list[i]
+    #             idx += 1
+    #
+    #     coherence_table = pa.Table.from_pandas(df_coherence_table, preserve_index=False)
+    #     return coherence_table
+
     def assemble_coherence(self, models_dict: Mapping[int, Any], words_per_topic: int):
 
         import pandas as pd
         import pyarrow as pa
 
-        # Create list with topics and topic words for each number of topics
-        num_topics_list = []
-        topics_list = []
-        for (
-            num_topics,
-            model,
-        ) in models_dict.items():
+        # Extract topics and their respective number of topics
+        topics_data = [
+            (num_topics, model.print_topics(num_words=words_per_topic))
+            for num_topics, model in models_dict.items()
+        ]
 
-            num_topics_list.append(num_topics)
-            topic_print = model.print_topics(num_words=words_per_topic)
-            topics_list.append(topic_print)
+        # Prepare data for DataFrame
+        df_data = [
+            {
+                "topic_id": topic_id + 1,
+                "words": ", ".join(re.findall(r'"(\w+)"', topic_info[1])),
+                "num_topics": num_topics,
+            }
+            for num_topics, topics in topics_data
+            for topic_id, topic_info in enumerate(topics)
+        ]
 
-        df_coherence_table = pd.DataFrame(columns=["topic_id", "words", "num_topics"])
+        # Create DataFrame from the prepared data
+        df_coherence_table = pd.DataFrame(
+            df_data, columns=["topic_id", "words", "num_topics"]
+        )
 
-        idx = 0
-        for i in range(len(topics_list)):
-            for j in range(len(topics_list[i])):
-                df_coherence_table.loc[idx] = ""
-                df_coherence_table["topic_id"].loc[idx] = j + 1
-                df_coherence_table["words"].loc[idx] = ", ".join(
-                    re.findall(r'"(\w+)"', topics_list[i][j][1])
-                )
-                df_coherence_table["num_topics"].loc[idx] = num_topics_list[i]
-                idx += 1
-
+        # Convert DataFrame to PyArrow Table
         coherence_table = pa.Table.from_pandas(df_coherence_table, preserve_index=False)
         return coherence_table
 
