@@ -42,7 +42,7 @@ input_aliases:
   create_date_array.min_index: date_parse_min
   create_date_array.max_index: date_parse_max
   create_date_array.force_non_null: date_force_non_null
-  create_date_array.remove_tokens: date_remove_tokensl
+  create_date_array.remove_tokens: date_remove_tokens
   tokenize_content.tokenize_by_word: tokenize_by_word
   generate_lda.num_topics_min: num_topics_min
   generate_lda.num_topics_max: num_topics_max
